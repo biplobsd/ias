@@ -17,7 +17,7 @@ class PowerBy extends StatelessWidget {
         }
       },
       child: Text(
-        AppString.powerByTitle,
+        AppString.poweredByTitle,
         style: Theme.of(context).textTheme.overline!.copyWith(
             color:
                 Theme.of(context).textTheme.overline!.color!.withOpacity(0.6)),

@@ -1,6 +1,6 @@
 class AppString {
   static const String appName = 'Preload web app template';
-  static const String powerByTitle = '"Powered by biplobsd.github.io';
+  static const String poweredByTitle = 'Powered by biplobsd.github.io';
   static const String copied = "Copied";
   static const String devInfoUrl =
       'https://play.google.com/store/apps/dev?id=7013622463085625240';
