@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class MenuData {
   final String name;
-  final IconData icon;
+  final IconData? icon;
   final String path;
   final bool isActive;
   final bool isHover;
 
   MenuData(
       {required this.name,
-      required this.icon,
+      this.icon,
       required this.path,
       this.isActive = false,
       this.isHover = false});

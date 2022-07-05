@@ -8,6 +8,7 @@ import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
+import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/model/side_menu_list.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/side_menu_item/side_menu_item.dart';
 
@@ -91,7 +92,7 @@ class SideMenuBody extends StatelessWidget {
                           sidemenuonactivecubit
                               .onActiveCall(itemData.copyWith(isActive: true));
                           if (itemData.path != '/logout') {
-                            sidemenuonactivecubit.navigateTo(itemData.path);
+                            sidemenuonactivecubit.navigateTo(itemData);
                           }
                           if (ResponsiveWidget.isSmallScreen(context)) {
                             Navigator.pop(context);
@@ -110,8 +111,15 @@ class SideMenuBody extends StatelessWidget {
                 var packageinfo = state.packageInfo;
                 return TextButton(
                   onPressed: () async {
+                    var sidemenuonactivecubit =
+                        BlocProvider.of<SidemenuonactiveCubit>(context);
+                    var aboutMenuData = MenuData(
+                      name: About.pageName,
+                      path: About.pathName,
+                    );
+                    sidemenuonactivecubit.onActiveCall(aboutMenuData);
                     BlocProvider.of<SidemenuonactiveCubit>(context)
-                        .navigateTo(About.pathName);
+                        .navigateTo(aboutMenuData);
                     if (ResponsiveWidget.isSmallScreen(context)) {
                       Navigator.pop(context);
                     }

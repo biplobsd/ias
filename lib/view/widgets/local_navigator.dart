@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preloadwebapptemplate/route/routes.dart';
-import 'package:preloadwebapptemplate/view/checker/check_page.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
+import 'package:preloadwebapptemplate/view/widgets/side_menu/model/side_menu_list.dart';
 
 Navigator localNavigator(BuildContext context) => Navigator(
       key: BlocProvider.of<SidemenuonactiveCubit>(context).navigationKey,
-      initialRoute: CheckerPage.pathName,
+      initialRoute: sideMenuList[0].path,
       onGenerateRoute: Routes().onGenerateRoute,
     );

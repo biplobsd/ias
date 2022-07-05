@@ -4,6 +4,8 @@ import 'package:preloadwebapptemplate/view/layout/large/large_page.dart';
 import 'package:preloadwebapptemplate/view/layout/small/small_page.dart';
 import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
+import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
+import 'package:preloadwebapptemplate/view/widgets/side_menu/model/side_menu_list.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/side_menu.dart';
 import 'package:preloadwebapptemplate/view/widgets/top_nav.dart';
 
@@ -14,8 +16,9 @@ class SiteLayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MenuData initialPage = sideMenuList[0];
     return BlocProvider(
-      create: (context) => SidemenuonactiveCubit(),
+      create: (context) => SidemenuonactiveCubit(currentMenu: initialPage),
       child: const SiteLayoutPageScreen(),
     );
   }

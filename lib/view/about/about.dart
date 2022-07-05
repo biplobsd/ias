@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
   static const String pathName = '/about';
+  static const String pageName = 'About';
   const About({Key? key}) : super(key: key);
 
   @override
