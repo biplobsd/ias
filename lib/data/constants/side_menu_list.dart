@@ -3,7 +3,7 @@ import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
 import 'package:preloadwebapptemplate/view/history/history.dart';
 import 'package:preloadwebapptemplate/view/checker/check_page.dart';
 import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
 
 final List<MenuData> sideMenuList = [
   MenuData(

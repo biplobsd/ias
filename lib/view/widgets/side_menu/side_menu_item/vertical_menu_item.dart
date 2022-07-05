@@ -4,7 +4,7 @@ import 'package:preloadwebapptemplate/constants/style.dart';
 import 'package:preloadwebapptemplate/view/widgets/custom_text.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
 
 class VerticalMenuItem extends StatelessWidget {
   final MenuData itemData;

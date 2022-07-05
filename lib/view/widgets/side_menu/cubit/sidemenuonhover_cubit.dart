@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/side_menu_list.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/constants/side_menu_list.dart';
 import 'package:meta/meta.dart';
 
 part 'sidemenuonhover_state.dart';

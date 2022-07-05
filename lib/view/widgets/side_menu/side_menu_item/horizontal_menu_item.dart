@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:preloadwebapptemplate/view/widgets/custom_text.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
 
 class HorizontalMenuItem extends StatelessWidget {
   final MenuData itemData;

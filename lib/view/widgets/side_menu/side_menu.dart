@@ -8,8 +8,8 @@ import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/side_menu_list.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/constants/side_menu_list.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/side_menu_item/side_menu_item.dart';
 
 class SideMenu extends StatelessWidget {
@@ -91,9 +91,6 @@ class SideMenuBody extends StatelessWidget {
                               BlocProvider.of<SidemenuonactiveCubit>(context);
                           sidemenuonactivecubit
                               .onActiveCall(itemData.copyWith(isActive: true));
-                          if (itemData.path != '/logout') {
-                            sidemenuonactivecubit.navigateTo(itemData);
-                          }
                           if (ResponsiveWidget.isSmallScreen(context)) {
                             Navigator.pop(context);
                           }

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/model/menu_data.dart';
+import 'package:preloadwebapptemplate/data/model/menu_data.dart';
 
 part 'sidemenuonactive_state.dart';
 
