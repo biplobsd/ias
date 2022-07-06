@@ -4,6 +4,7 @@ import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 
 class AssetHolderPage extends StatelessWidget {
   static const String pathName = '/assetHolder';
+  static const String pageName = 'Asset Holder';
   const AssetHolderPage({Key? key}) : super(key: key);
 
   @override

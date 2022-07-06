@@ -7,21 +7,21 @@ import 'package:preloadwebapptemplate/data/model/menu_data.dart';
 
 final List<MenuData> sideMenuList = [
   MenuData(
-    name: 'Checker',
+    name: CheckerPage.pageName,
     icon: Icons.check,
     path: CheckerPage.pathName,
   ),
   MenuData(
-      name: 'Asset Holder',
+      name: AssetHolderPage.pageName,
       icon: Icons.assessment_outlined,
       path: AssetHolderPage.pathName),
   MenuData(
-    name: 'History',
+    name: HistoryPage.pageName,
     icon: Icons.history,
     path: HistoryPage.pathName,
   ),
   MenuData(
-    name: 'Settings',
+    name: SettingPage.pageName,
     icon: Icons.settings,
     path: SettingPage.pathName,
   ),

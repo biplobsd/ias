@@ -6,6 +6,7 @@ class CheckerPage extends StatelessWidget {
   const CheckerPage({Key? key}) : super(key: key);
 
   static const String pathName = '/checker';
+  static const String pageName = 'Checker';
 
   @override
   Widget build(BuildContext context) {

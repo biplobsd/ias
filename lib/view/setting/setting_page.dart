@@ -4,6 +4,7 @@ import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
   static const String pathName = '/setting';
+  static const String pageName = 'Setting';
 
   @override
   Widget build(BuildContext context) {
