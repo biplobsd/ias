@@ -89,8 +89,9 @@ class SideMenuBody extends StatelessWidget {
                         onTap: () {
                           var sidemenuonactivecubit =
                               BlocProvider.of<SidemenuonactiveCubit>(context);
-                          sidemenuonactivecubit
-                              .onActiveCall(itemData.copyWith(isActive: true));
+                          itemData = itemData.copyWith(isActive: true);
+                          sidemenuonactivecubit.onActiveCall(itemData);
+                          sidemenuonactivecubit.navigateTo(itemData);
                           if (ResponsiveWidget.isSmallScreen(context)) {
                             Navigator.pop(context);
                           }

@@ -19,8 +19,8 @@ class SidemenuonactiveCubit extends Cubit<SidemenuonactiveState> {
 
   Future<void> navigateTo(MenuData menuData) async {
     if (!menuData.path.contains(currentMenu.path)) {
-      await navigationKey.currentState!.pushReplacementNamed(menuData.path);
       currentMenu = menuData;
+      await navigationKey.currentState!.pushReplacementNamed(menuData.path);
     }
   }
 

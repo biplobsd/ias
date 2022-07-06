@@ -6,6 +6,6 @@ class AppString {
       'https://play.google.com/store/apps/dev?id=7013622463085625240';
   static const String devGithubUrlBiplob = 'https://github.com/biplobsd';
   static const String githubIssueUrl =
-      'https://github.com/biplobsd/hascoin-issue/issues';
+      'https://github.com/biplobsd/preloadwebapptemplate/issues';
   static const String appForwordUrl = 'https://biplobsd.github.io';
 }
