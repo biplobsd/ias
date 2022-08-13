@@ -9,34 +9,44 @@ import 'package:preloadwebapptemplate/route/routes.dart';
 import 'package:preloadwebapptemplate/view/layout/layout.dart';
 
 import '../constants/theme/theme_manager.dart';
+import '../data/provider/horizon_api.dart';
+import '../data/repository/horizon.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var horizon = Horizon(horizonApi: HorizonApi());
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => ThemeCubit(),
         ),
       ],
-      child: const ApplyMore(),
+      child: ApplyMore(horizon: horizon),
     );
   }
 }
 
 class ApplyMore extends StatelessWidget {
-  const ApplyMore({Key? key}) : super(key: key);
+  final Horizon horizon;
+  const ApplyMore({required this.horizon, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const OverlaySupport.global(child: MainApp());
+    return OverlaySupport.global(
+      child: MainApp(
+        horizon: horizon,
+      ),
+    );
   }
 }
 
 class MainApp extends StatelessWidget {
+  final Horizon horizon;
   const MainApp({
+    required this.horizon,
     Key? key,
   }) : super(key: key);
 
@@ -49,7 +59,7 @@ class MainApp extends StatelessWidget {
       builder: (light, dark) => MaterialApp(
         title: AppString.appName,
         debugShowCheckedModeBanner: false,
-        onGenerateRoute: Routes().onGenerateRoute,
+        onGenerateRoute: Routes(horizon: horizon).onGenerateRoute,
         theme: light,
         darkTheme: dark,
         initialRoute: SiteLayoutPage.pathName,

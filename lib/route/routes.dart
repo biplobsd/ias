@@ -9,7 +9,11 @@ import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../data/repository/horizon.dart';
+
 class Routes {
+  final Horizon horizon;
+  Routes({required this.horizon});
   Route? onGenerateRoute(RouteSettings settings) {
     // final args = settings.arguments;
 
