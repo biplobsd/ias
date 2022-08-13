@@ -103,7 +103,7 @@ class About extends StatelessWidget {
                     'https://avatars.githubusercontent.com/u/43641536?v=4',
                 name: "Biplob Kumar Sutradhar",
                 email: "biplobsd11@gmail.com",
-                role: "Lead devoloper",
+                role: "Lead developer",
                 devGithub: AppUrl.devGithubBiplob,
               ),
               const SizedBox(
