@@ -8,6 +8,8 @@ import 'package:preloadwebapptemplate/route/routes.dart';
 
 import 'package:preloadwebapptemplate/view/layout/layout.dart';
 
+import '../constants/theme/theme_manager.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -40,30 +42,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var mainThemeColor = const MaterialColor(
-      0xFFba0000,
-      <int, Color>{
-        50: Color(0xFFFFEBEE),
-        100: Color(0xFFFFCDD2),
-        200: Color(0xFFEF9A9A),
-        300: Color(0xFFE57373),
-        400: Color(0xFFEF5350),
-        500: Color(0xFFba0000),
-        600: Color(0xFFE53935),
-        700: Color(0xFFD32F2F),
-        800: Color(0xFFC62828),
-        900: Color(0xFFba0000),
-      },
-    );
     return AdaptiveTheme(
-      light: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: mainThemeColor,
-      ),
-      dark: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: mainThemeColor,
-      ),
+      light: ThemeManager.buildTheme(Brightness.light),
+      dark: ThemeManager.buildTheme(Brightness.dark),
       initial: AdaptiveThemeMode.light,
       builder: (light, dark) => MaterialApp(
         title: AppString.appName,
