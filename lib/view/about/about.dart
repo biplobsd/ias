@@ -7,6 +7,8 @@ import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utility/function/helper.dart';
+
 class About extends StatelessWidget {
   static const String pathName = '/about';
   static const String pageName = 'About';
@@ -38,11 +40,18 @@ class About extends StatelessWidget {
               BlocBuilder<PackageinfoCubit, PackageinfoState>(
                 builder: (context, state) {
                   if (state is PackageinfoFound) {
+                    String appInfotxt =
+                        "${AppString.appName} v${state.packageInfo.version} #${state.packageInfo.buildNumber}";
                     return Column(
                       children: [
-                        Text(
-                          "${AppString.appName} v${state.packageInfo.version} #${state.packageInfo.buildNumber}",
-                          style: Theme.of(context).textTheme.titleLarge,
+                        InkWell(
+                          onTap: () {
+                            Helper.copyToClipboard(context, appInfotxt);
+                          },
+                          child: Text(
+                            appInfotxt,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                         ),
                         const SizedBox(
                           height: 3,

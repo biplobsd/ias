@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:preloadwebapptemplate/constants/string.dart';
 import 'package:preloadwebapptemplate/constants/theme/cubit/theme_cubit.dart';
 import 'package:preloadwebapptemplate/route/routes.dart';
@@ -28,7 +29,7 @@ class ApplyMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MainApp();
+    return const OverlaySupport.global(child: MainApp());
   }
 }
 
