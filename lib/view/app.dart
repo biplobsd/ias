@@ -9,6 +9,7 @@ import 'package:preloadwebapptemplate/route/routes.dart';
 import 'package:preloadwebapptemplate/view/layout/layout.dart';
 
 import '../constants/theme/theme_manager.dart';
+import '../core/cubit/top_context_cubit.dart';
 import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
 
@@ -21,7 +22,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ThemeCubit(horizon: horizon),
+          create: (context) => ThemeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => TopContextCubit(horizon: horizon),
         ),
       ],
       child: ApplyMore(horizon: horizon),

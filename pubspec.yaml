@@ -45,6 +45,8 @@ dependencies:
   page_transition: ^2.0.7
   overlay_support: ^2.0.1
   google_fonts: ^3.0.1
+  ndialog: ^4.1.1+1
+  flutter_text_viewer: ^0.0.4
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
