@@ -1,6 +1,15 @@
 # preloadwebapptemplate
-
 A new Flutter project.
+
+## Usage steps
+```
+cd path/to/your/project
+git remote add template https://github.com/biplobsd/preloadwebapptemplate.git
+git fetch template --tags
+git merge --allow-unrelated-histories template/main
+git remote remove template
+```
+<a href="https://stackoverflow.com/a/10548919/11027737" target="_blank">More details</a>
 
 ## Getting Started
 
