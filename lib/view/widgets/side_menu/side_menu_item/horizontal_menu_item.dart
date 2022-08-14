@@ -56,13 +56,18 @@ class HorizontalMenuItem extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      child: CustomText(
-                        text: itemData.name,
-                        size: isThatWidgetActive ? 18 : 16,
-                        color: Theme.of(context).hintColor.withOpacity(.7),
-                        weight: isThatWidgetActive
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                      child: AnimatedDefaultTextStyle(
+                        duration: const Duration(milliseconds: 120),
+                        style: TextStyle(
+                          fontSize: isThatWidgetActive ? 18 : 16,
+                          color: Theme.of(context).hintColor.withOpacity(.7),
+                          fontWeight: isThatWidgetActive
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                        child: Text(
+                          itemData.name,
+                        ),
                       ),
                     )
                   ],
