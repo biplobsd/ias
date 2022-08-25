@@ -1,14 +1,11 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:preloadwebapptemplate/constants/string.dart';
-
-import 'package:preloadwebapptemplate/constants/theme/cubit/theme_cubit.dart';
 
 import 'package:preloadwebapptemplate/view/widgets/custom_text.dart';
 import 'package:preloadwebapptemplate/view/widgets/power_by.dart';
 import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
+import 'package:preloadwebapptemplate/view/widgets/theme_change_switch.dart';
 
 import '../../core/cubit/top_context_cubit.dart';
 
@@ -52,28 +49,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
         ],
       ),
       const Spacer(),
-      BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, state) {
-          return FlutterSwitch(
-            value: AdaptiveTheme.of(context).mode.isDark,
-            borderRadius: 30.0,
-            padding: 5.0,
-            activeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-            inactiveColor: Theme.of(context).backgroundColor.withOpacity(0.2),
-            activeIcon: const Icon(
-              Icons.nightlight_round,
-              color: Color(0xFFF8E3A1),
-            ),
-            inactiveIcon: const Icon(
-              Icons.wb_sunny,
-              color: Color(0xFFFFDF5D),
-            ),
-            onToggle: (val) {
-              BlocProvider.of<ThemeCubit>(context).toggleTheme(context, val);
-            },
-          );
-        },
-      ),
+      const ThemeChangeSwitch(),
       if (!ResponsiveWidget.isSmallScreen(context))
         const SizedBox(
           width: 10,
