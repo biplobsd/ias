@@ -38,6 +38,8 @@ class CheckerPage extends StatelessWidget {
               );
             } else if (state is ImageAdjustImageUploading) {
               imgAdjBloc.running = true;
+            } else if (state is ImageAdjustImageError) {
+              imgAdjBloc.running = false;
             }
           },
         ),
@@ -380,37 +382,49 @@ class DownloadWidget extends StatelessWidget {
             builder: (context, stateAnim) {
               return BlocBuilder<DownloadCropImageBloc, DownloadCropImageState>(
                 builder: (context, state) {
-                  var isNotRunning = stateAnim is AnimImageSplittingComplated &&
-                      (state is DownloadCropImageError ||
-                          state is DownloadCropImageDone ||
-                          state is DownloadCropImageInitial);
-                  void Function()? onPressed;
-                  if (isNotRunning) {
-                    onPressed = () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<DownloadCropImageBloc>()
-                          .add(DownloadCropImageSaveEvent(
-                            mainImage: stateAnim.mBytes,
-                            pixels: stateAnim.pixelBytes,
-                            packageInfo: statepkinfo.packageInfo,
-                          ));
-                    };
-                  }
+                  Widget widget;
                   var icon = const Icon(Icons.download_rounded);
                   var text = state is DownloadCropImageZiping
                       ? 'Ziping ...'
                       : Platform.isAndroid
                           ? 'Save into Internal storage'
                           : 'Download';
-                  return Tooltip(
-                    message: text,
-                    waitDuration: const Duration(seconds: 1),
-                    child: TextButton.icon(
-                      onPressed: onPressed,
-                      icon: icon,
-                      label: Text(isSmallScreen ? '' : text),
-                    ),
+                  print(state);
+                  if (state is! DownloadCropImageZiping) {
+                    widget = Tooltip(
+                      key: UniqueKey(),
+                      message: text,
+                      waitDuration: const Duration(seconds: 1),
+                      child: TextButton.icon(
+                        onPressed: stateAnim is AnimImageSplittingComplated
+                            ? () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                context
+                                    .read<DownloadCropImageBloc>()
+                                    .add(DownloadCropImageSaveEvent(
+                                      mainImage: stateAnim.mBytes,
+                                      pixels: stateAnim.pixelBytes,
+                                      packageInfo: statepkinfo.packageInfo,
+                                    ));
+                              }
+                            : null,
+                        icon: icon,
+                        label: Text(isSmallScreen ? '' : text),
+                      ),
+                    );
+                  } else {
+                    widget = SizedBox(
+                        key: UniqueKey(),
+                        height: 20,
+                        width: 20,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                        ));
+                  }
+
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 100),
+                    child: widget,
                   );
                 },
               );

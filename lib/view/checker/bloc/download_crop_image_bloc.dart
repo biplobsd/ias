@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,11 +10,12 @@ import 'package:intl/intl.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
-
 import 'package:path_provider/path_provider.dart';
+
 import '../../../constants/string.dart';
 import '../../../data/model/fileinfo.dart';
 import '../../../data/model/m_bytes.dart';
+
 part 'download_crop_image_event.dart';
 part 'download_crop_image_state.dart';
 
@@ -49,6 +51,8 @@ class DownloadCropImageBloc
 
   DownloadCropImageBloc() : super(DownloadCropImageInitial()) {
     on<DownloadCropImageSaveSingleEvent>((event, emit) async {
+      emit(DownloadCropImageZiping());
+      await Future.delayed(const Duration(milliseconds: 10));
       var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
       String outFilename =
           '${event.id}_${path.basename(event.mBytes.path).substring(0, event.mBytes.extension.length)}_$dateTimeNow.png';
@@ -74,9 +78,9 @@ class DownloadCropImageBloc
       await Future.delayed(const Duration(milliseconds: 10));
       final List<Uint8List> pixels;
       pixels = event.pixels;
-
       var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
-      String outFilename = '$dateTimeNow.zip';
+      String outFilename =
+          '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_$dateTimeNow.png';
       var m = await _outputPath(outFilename, emit);
       if (m == null) {
         return;
@@ -84,7 +88,6 @@ class DownloadCropImageBloc
         outFilename = m;
       }
 
-      ZipEncoder encoder = ZipEncoder();
       Archive archive = Archive();
 
       // main file
@@ -133,17 +136,13 @@ class DownloadCropImageBloc
         ),
       );
 
-      OutputStream outputStream = OutputStream(
-        byteOrder: LITTLE_ENDIAN,
-      );
-      List<int>? bytes = encoder.encode(
+      var bytesRaw = await compute<Archive, OutputArchiveBytes>(
+        archiveEncoding,
         archive,
-        level: Deflate.BEST_SPEED,
-        output: outputStream,
       );
 
       try {
-        download(bytes!, outFilename);
+        download(bytesRaw.bytes!, outFilename);
       } on Exception catch (e) {
         emit(DownloadCropImageError(
           errorMsg: '$e',
@@ -153,4 +152,25 @@ class DownloadCropImageBloc
       emit(DownloadCropImageDone(fileName: outFilename));
     });
   }
+}
+
+class OutputArchiveBytes {
+  final List<int>? bytes;
+  OutputArchiveBytes({
+    this.bytes,
+  });
+}
+
+OutputArchiveBytes archiveEncoding(Archive archive) {
+  ZipEncoder encoder = ZipEncoder();
+  OutputStream outputStream = OutputStream(
+    byteOrder: LITTLE_ENDIAN,
+  );
+  return OutputArchiveBytes(
+    bytes: encoder.encode(
+      archive,
+      level: Deflate.BEST_SPEED,
+      output: outputStream,
+    ),
+  );
 }
