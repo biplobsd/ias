@@ -639,11 +639,9 @@ packages:
   share_plus:
     dependency: "direct main"
     description:
-      path: "packages/share_plus/share_plus"
-      ref: main
-      resolved-ref: "50669d3a32fa7440266eb94215c6f9de41739e26"
-      url: "https://github.com/fluttercommunity/plus_plugins.git"
-    source: git
+      name: share_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "4.5.3"
   share_plus_linux:
     dependency: transitive
