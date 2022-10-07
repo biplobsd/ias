@@ -83,6 +83,7 @@ class MyApp extends StatelessWidget {
                 ).show(
                   topContext,
                   transitionType: DialogTransitionType.Bubble,
+                  dismissable: false,
                 );
               }
             },
