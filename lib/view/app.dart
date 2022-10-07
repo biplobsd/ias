@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,9 +68,9 @@ class MyApp extends StatelessWidget {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {
+                      onPressed: Platform.isAndroid ? () {
                         SystemNavigator.pop();
-                      },
+                      } : null,
                       child: const Text('Exit'),
                     ),
                     TextButton(
