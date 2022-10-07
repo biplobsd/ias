@@ -8,11 +8,11 @@ class AnimImageInitial extends AnimImageState {}
 class AnimImageSplitting extends AnimImageState {
   final Uint8List imageBytes;
   final int id;
-  final MBytes mBytes;
+
   AnimImageSplitting({
     required this.imageBytes,
     required this.id,
-    required this.mBytes,
+
   });
 }
 

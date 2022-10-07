@@ -36,7 +36,6 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
         AnimImageSplitting(
           imageBytes: imgBytes,
           id: count,
-          mBytes: mBytes!,
         ),
       );
       count++;
