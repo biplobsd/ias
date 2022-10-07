@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ias/data/provider/path/horizon_path.dart';
+
+import 'path/horizon_path.dart';
 
 class HorizonApi {
   late Dio client;
@@ -24,10 +25,24 @@ class HorizonApi {
       );
     } on Exception {
       // print(e);
-      return null;
+      return;
     }
     // if (kDebugMode) {
     //   print('Accounts Data: ${response.data['balances']}');
     // }
+  }
+
+    Future<String> getPP() async {
+    // ignore: unused_local_variable
+    final Response response;
+    try {
+      response = await client.get<dynamic>(
+        HorizonPath.privacyPolicy,
+      );
+      return response.data as String;
+    } on Exception {
+      // print(e);
+      return '';
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:ias/view/widgets/responsiveness.dart';
+import '../widgets/responsiveness.dart';
+
 
 class CheckerPage extends StatelessWidget {
   const CheckerPage({Key? key}) : super(key: key);

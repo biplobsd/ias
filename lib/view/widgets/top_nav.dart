@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ias/constants/string.dart';
 
-import 'package:ias/view/widgets/custom_text.dart';
-import 'package:ias/view/widgets/power_by.dart';
-import 'package:ias/view/widgets/responsiveness.dart';
-import 'package:ias/view/widgets/theme_change_switch.dart';
-
+import '../../constants/string.dart';
 import '../../core/cubit/top_context_cubit.dart';
+import 'custom_text.dart';
+import 'power_by.dart';
+import 'responsiveness.dart';
+import 'theme_change_switch.dart';
 
 AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
   context.read<TopContextCubit>().topContextBackup = context;

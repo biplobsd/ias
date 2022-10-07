@@ -1,17 +1,24 @@
+import 'dart:io' show Platform;
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ndialog/ndialog.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:ias/constants/string.dart';
-import 'package:ias/constants/theme/bloc/theme_bloc.dart';
-import 'package:ias/route/routes.dart';
 
-import 'package:ias/view/layout/layout.dart';
-
+import '../constants/string.dart';
+import '../constants/theme/bloc/theme_bloc.dart';
 import '../constants/theme/theme_manager.dart';
 import '../core/cubit/top_context_cubit.dart';
 import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
+import '../route/routes.dart';
+import '../utility/function/helper.dart';
+import 'layout/layout.dart';
+import 'privacy_policy/cubit/get_privacy_policy_cubit.dart';
+import 'privacy_policy/privacy_policy.dart';
+import 'setting/cubit/setting_config_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var horizon = Horizon(horizonApi: HorizonApi());
+    var settingConfCubit = SettingConfigCubit();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -27,8 +35,64 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TopContextCubit(horizon: horizon),
         ),
+        BlocProvider(
+          create: (context) => settingConfCubit,
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => GetPrivacyPolicyCubit(horizon: horizon),
+        ),
       ],
-      child: ApplyMore(horizon: horizon),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<SettingConfigCubit, SettingConfigState>(
+            listener: (context, state) {
+              if (state is SettingConfigUpdate) {
+                Helper.customToast(context, state.msg, ToastMode.success);
+              }
+            },
+          ),
+          BlocListener<SettingConfigCubit, SettingConfigState>(
+            listener: (context, state) async {
+              if (state is SettingConfigLoaded &&
+                  !settingConfCubit.localSettings.privacyPolicyAgree) {
+                var topContext =
+                    context.read<TopContextCubit>().topContextBackup;
+
+                await NDialog(
+                  title: const Text('Statement'),
+                  content: const SizedBox(
+                    height: 500,
+                    width: 1080,
+                    child: PrivacyPolicy(),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: Platform.isAndroid ? () {
+                        SystemNavigator.pop();
+                      } : null,
+                      child: const Text('Exit'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await settingConfCubit
+                            .changePrivacyPolicyAgree()
+                            .whenComplete(() => Navigator.pop(topContext));
+                      },
+                      child: const Text('Agree'),
+                    )
+                  ],
+                ).show(
+                  topContext,
+                  transitionType: DialogTransitionType.Bubble,
+                  dismissable: false,
+                );
+              }
+            },
+          ),
+        ],
+        child: ApplyMore(horizon: horizon),
+      ),
     );
   }
 }

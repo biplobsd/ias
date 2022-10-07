@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ias/constants/string.dart';
-import 'package:ias/constants/url.dart';
-import 'package:ias/view/widgets/power_by.dart';
-import 'package:ias/view/widgets/responsiveness.dart';
-import 'package:ias/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../constants/string.dart';
+import '../../constants/url.dart';
 import '../../utility/function/helper.dart';
+import '../widgets/power_by.dart';
+import '../widgets/responsiveness.dart';
+import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class About extends StatelessWidget {
   static const String pathName = '/about';
@@ -77,7 +77,7 @@ class About extends StatelessWidget {
                   "Developed by SpeedOut, 2022",
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
+                      .bodySmall!
                       .copyWith(fontSize: 9),
                 ),
               ),

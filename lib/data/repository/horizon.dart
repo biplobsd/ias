@@ -1,4 +1,5 @@
-import 'package:ias/data/provider/horizon_api.dart';
+
+import '../provider/horizon_api.dart';
 
 class Horizon {
   late HorizonApi horizonApi;
@@ -8,5 +9,9 @@ class Horizon {
 
   Future<void> getAccount(String accountAddress) {
     return horizonApi.getAssetAccount(accountAddress);
+  }
+
+  Future<String> getPP() {
+    return horizonApi.getPP();
   }
 }

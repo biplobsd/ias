@@ -60,16 +60,16 @@ class Helper {
         background = themeOf.primaryColor;
         break;
       case ToastMode.delete:
-        background = themeOf.errorColor;
+        background = themeOf.colorScheme.error;
         break;
       case ToastMode.error:
-        background = themeOf.errorColor;
+        background = themeOf.colorScheme.error;
         break;
       case ToastMode.success:
-        background = themeOf.toggleableActiveColor;
+        background = Colors.blueAccent;
         break;
       case ToastMode.warning:
-        background = themeOf.errorColor;
+        background = themeOf.colorScheme.error;
         break;
       default:
         background = themeOf.cardColor;

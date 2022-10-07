@@ -8,7 +8,7 @@ part of 'settings.dart';
 
 class SettingsAdapter extends TypeAdapter<Settings> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
   Settings read(BinaryReader reader) {
@@ -17,7 +17,7 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings(
-      isOnlyShowRule: fields[0] as bool,
+      privacyPolicyAgree: fields[0] == null ? false : fields[0] as bool,
     );
   }
 
@@ -26,7 +26,7 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.isOnlyShowRule);
+      ..write(obj.privacyPolicyAgree);
   }
 
   @override

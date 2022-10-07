@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ias/view/asset_holder/asset_holder.dart';
-import 'package:ias/view/history/history.dart';
-import 'package:ias/view/checker/check_page.dart';
-import 'package:ias/view/setting/setting_page.dart';
-import 'package:ias/data/model/menu_data.dart';
+
+import '../../view/asset_holder/asset_holder.dart';
+import '../../view/checker/check_page.dart';
+import '../../view/history/history.dart';
+import '../../view/privacy_policy/privacy_policy.dart';
+import '../../view/setting/setting_page.dart';
+import '../model/menu_data.dart';
 
 final List<MenuData> sideMenuList = [
   MenuData(
@@ -19,6 +21,11 @@ final List<MenuData> sideMenuList = [
     name: HistoryPage.pageName,
     icon: Icons.history,
     path: HistoryPage.pathName,
+  ),
+  MenuData(
+    name: PrivacyPolicy.pageName,
+    icon: Icons.privacy_tip,
+    path: PrivacyPolicy.pathName,
   ),
   MenuData(
     name: SettingPage.pageName,

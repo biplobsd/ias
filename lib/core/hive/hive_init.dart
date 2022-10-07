@@ -1,9 +1,12 @@
-import 'package:ias/data/model/hive/settings.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../constants/string.dart';
+import '../../data/model/hive/settings.dart';
 
 class HiveInit {
   static Future<void> fireUp() async {
-    await Hive.initFlutter();
+    await Hive.initFlutter(AppString.shortName);
     Hive.registerAdapter(SettingsAdapter());
   }
 }

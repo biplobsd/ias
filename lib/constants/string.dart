@@ -7,4 +7,5 @@ class AppString {
   static const String devGithubUrlBiplob = 'https://github.com/biplobsd';
   static const String githubIssueUrl = 'https://github.com/biplobsd/ias/issues';
   static const String appForwordUrl = 'https://biplobsd.github.io';
+  static const String shortName = 'pwat';
 }

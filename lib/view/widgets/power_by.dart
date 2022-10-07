@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ias/constants/string.dart';
-import 'package:ias/constants/url.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/string.dart';
+import '../../constants/url.dart';
 
 class PowerBy extends StatelessWidget {
   const PowerBy({
@@ -18,9 +19,12 @@ class PowerBy extends StatelessWidget {
       },
       child: Text(
         AppString.poweredByTitle,
-        style: Theme.of(context).textTheme.overline!.copyWith(
-            color:
-                Theme.of(context).textTheme.overline!.color!.withOpacity(0.6)),
+        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+            color: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .color!
+                .withOpacity(0.6)),
         textAlign: TextAlign.end,
       ),
     );

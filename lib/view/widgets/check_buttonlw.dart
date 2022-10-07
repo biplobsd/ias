@@ -22,7 +22,7 @@ class CheckButtonLW extends StatelessWidget {
       height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            primary: color,
+            backgroundColor: color,
             elevation: 0.3,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

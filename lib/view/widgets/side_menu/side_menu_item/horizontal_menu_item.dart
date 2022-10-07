@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ias/view/widgets/custom_text.dart';
-import 'package:ias/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
-import 'package:ias/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
-import 'package:ias/data/model/menu_data.dart';
+import '../cubit/sidemenuonactive_cubit.dart';
+import '../cubit/sidemenuonhover_cubit.dart';
+import '../../../../data/model/menu_data.dart';
 
 class HorizontalMenuItem extends StatelessWidget {
   final MenuData itemData;
@@ -42,7 +41,7 @@ class HorizontalMenuItem extends StatelessWidget {
                       child: Container(
                         width: 6,
                         height: 40,
-                        color: Theme.of(context).toggleableActiveColor,
+                        color: Colors.blueAccent,
                       ),
                     ),
                     SizedBox(

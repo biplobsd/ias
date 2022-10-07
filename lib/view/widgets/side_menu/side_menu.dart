@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ias/constants/string.dart';
-import 'package:ias/constants/style.dart';
-import 'package:ias/view/about/about.dart';
-import 'package:ias/view/widgets/custom_text.dart';
-import 'package:ias/view/widgets/responsiveness.dart';
-import 'package:ias/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
-import 'package:ias/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
-import 'package:ias/view/widgets/side_menu/cubit/sidemenuonhover_cubit.dart';
-import 'package:ias/data/model/menu_data.dart';
-import 'package:ias/data/constants/side_menu_list.dart';
-import 'package:ias/view/widgets/side_menu/side_menu_item/side_menu_item.dart';
+
+import '../../../constants/string.dart';
+import '../../../constants/style.dart';
+import '../../../data/constants/side_menu_list.dart';
+import '../../../data/model/menu_data.dart';
+import '../../about/about.dart';
+import '../custom_text.dart';
+import '../responsiveness.dart';
+import 'cubit/packageinfo_cubit.dart';
+import 'cubit/sidemenuonactive_cubit.dart';
+import 'cubit/sidemenuonhover_cubit.dart';
+import 'side_menu_item/side_menu_item.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);

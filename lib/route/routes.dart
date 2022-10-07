@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ias/view/about/about.dart';
-import 'package:ias/view/asset_holder/asset_holder.dart';
-import 'package:ias/view/history/history.dart';
-import 'package:ias/view/checker/check_page.dart';
-import 'package:ias/view/layout/layout.dart';
-import 'package:ias/view/setting/setting_page.dart';
-import 'package:ias/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/repository/horizon.dart';
+import '../view/about/about.dart';
+import '../view/asset_holder/asset_holder.dart';
+import '../view/checker/check_page.dart';
+import '../view/history/history.dart';
+import '../view/layout/layout.dart';
+import '../view/privacy_policy/privacy_policy.dart';
+import '../view/setting/setting_page.dart';
+import '../view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class Routes {
   final Horizon horizon;
@@ -56,6 +57,12 @@ class Routes {
             create: (context) => PackageinfoCubit(),
             child: const About(),
           ),
+        );
+      case PrivacyPolicy.pathName:
+        return PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.centerLeft,
+          child: const PrivacyPolicy(),
         );
       default:
         return null;

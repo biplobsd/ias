@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:ias/view/widgets/local_navigator.dart';
+import '../../widgets/local_navigator.dart';
+import '../../widgets/side_menu/side_menu.dart';
 
-import 'package:ias/view/widgets/side_menu/side_menu.dart';
 
 class LargeScreen extends StatelessWidget {
   const LargeScreen({
