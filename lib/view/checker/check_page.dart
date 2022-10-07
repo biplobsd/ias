@@ -174,34 +174,41 @@ class CheckPageScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Opacity(
-                                    opacity: 0.4,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          splashRadius: 20,
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.share_rounded),
-                                        ),
-                                        IconButton(
-                                          splashRadius: 20,
-                                          onPressed: state is AnimImageSplitting
-                                              ? () {
-                                                  downloadImgB.add(
-                                                      DownloadCropImageSaveSingleEvent(
-                                                    id: state.id,
-                                                    imageBytes:
-                                                        state.imageBytes,
-                                                    mBytes: state.mBytes,
-                                                  ));
-                                                }
-                                              : null,
-                                          icon: const Icon(Icons.save),
-                                        ),
-                                      ],
+                                Material(
+                                  color: Colors.transparent,
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Opacity(
+                                      opacity: 0.4,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (Platform.isAndroid)
+                                            IconButton(
+                                              splashRadius: 20,
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.share_rounded,
+                                              ),
+                                            ),
+                                          IconButton(
+                                            splashRadius: 20,
+                                            onPressed:
+                                                state is AnimImageSplitting
+                                                    ? () {
+                                                        downloadImgB.add(
+                                                            DownloadCropImageSaveSingleEvent(
+                                                          id: state.id,
+                                                          imageBytes:
+                                                              state.imageBytes,
+                                                          mBytes: state.mBytes,
+                                                        ));
+                                                      }
+                                                    : null,
+                                            icon: const Icon(Icons.save),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )
