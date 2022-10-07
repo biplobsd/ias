@@ -70,7 +70,10 @@ class DownloadCropImageBloc
         ));
         return;
       }
-      emit(DownloadCropImageDone(fileName: outFilename));
+      emit(DownloadCropImageDone(
+        fileName: outFilename,
+        share: event.share,
+      ));
     });
 
     on<DownloadCropImageSaveEvent>((event, emit) async {
@@ -80,7 +83,7 @@ class DownloadCropImageBloc
       pixels = event.pixels;
       var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
       String outFilename =
-          '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_$dateTimeNow.png';
+          '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_$dateTimeNow.zip';
       var m = await _outputPath(outFilename, emit);
       if (m == null) {
         return;

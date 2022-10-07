@@ -16,7 +16,9 @@ class DownloadCropImageError extends DownloadCropImageState {
 
 class DownloadCropImageDone extends DownloadCropImageState {
   final String fileName;
+  final bool share;
   DownloadCropImageDone({
     required this.fileName,
+    this.share = false,
   });
 }

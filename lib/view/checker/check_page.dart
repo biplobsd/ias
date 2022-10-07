@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:ias/core/cubit/top_context_cubit.dart';
 import 'package:ias/utility/function/helper.dart';
 import 'package:ias/view/checker/bloc/anim_image_bloc.dart';
 import 'package:ndialog/ndialog.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../widgets/responsiveness.dart';
 import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
@@ -65,25 +67,41 @@ class CheckerPage extends StatelessWidget {
         BlocListener<DownloadCropImageBloc, DownloadCropImageState>(
           listener: (context, state) async {
             if (state is DownloadCropImageDone) {
-              if (kIsWeb) {
-                Helper.customToast(
-                    context, 'Save ${state.fileName}', ToastMode.success);
-              } else {
-                await NDialog(
-                  title: const Text('Save successful'),
-                  content: Text('File save into ${state.fileName}'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(topContext);
-                      },
-                      child: const Text('Close'),
-                    )
-                  ],
-                ).show(
-                  topContext,
-                  transitionType: DialogTransitionType.Bubble,
+              if (state.share) {
+                await Share.shareFiles(
+                  [state.fileName],
+                  text: state.fileName,
                 );
+              } else {
+                if (kIsWeb) {
+                  Helper.customToast(
+                      context, 'Save ${state.fileName}', ToastMode.success);
+                } else {
+                  await NDialog(
+                    title: const Text('Save successful'),
+                    content: Text('File save into ${state.fileName}'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(topContext);
+                        },
+                        child: const Text('Close'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await Share.shareFiles(
+                            [state.fileName],
+                            text: state.fileName,
+                          );
+                        },
+                        child: const Text('Share'),
+                      )
+                    ],
+                  ).show(
+                    topContext,
+                    transitionType: DialogTransitionType.Bubble,
+                  );
+                }
               }
             }
           },
@@ -101,7 +119,6 @@ class CheckPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double sizedR = !ResponsiveWidget.isSmallScreen(context) ? 200 : 100;
     double sizedRPadding = !ResponsiveWidget.isSmallScreen(context) ? 0 : 10;
     bool isSmallScreen = ResponsiveWidget.isSmallScreen(context);
 
@@ -245,14 +262,28 @@ class CheckPageScreen extends StatelessWidget {
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      if (Platform.isAndroid)
-                                                        IconButton(
-                                                          splashRadius: 20,
-                                                          onPressed: () {},
-                                                          icon: const Icon(
-                                                            Icons.share_rounded,
-                                                          ),
+                                                      IconButton(
+                                                        splashRadius: 20,
+                                                        onPressed: imageBytes !=
+                                                                null
+                                                            ? () {
+                                                                downloadImgB
+                                                                    .add(
+                                                                  DownloadCropImageSaveSingleEvent(
+                                                                    share: true,
+                                                                    id: index,
+                                                                    imageBytes:
+                                                                        imageBytes!,
+                                                                    mBytes: animImageB
+                                                                        .mBytes!,
+                                                                  ),
+                                                                );
+                                                              }
+                                                            : null,
+                                                        icon: const Icon(
+                                                          Icons.share_rounded,
                                                         ),
+                                                      ),
                                                       IconButton(
                                                         tooltip: 'Save frame',
                                                         splashRadius: 20,
@@ -389,7 +420,7 @@ class DownloadWidget extends StatelessWidget {
                       : Platform.isAndroid
                           ? 'Save into Internal storage'
                           : 'Download';
-                  print(state);
+
                   if (state is! DownloadCropImageZiping) {
                     widget = Tooltip(
                       key: UniqueKey(),

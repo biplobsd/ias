@@ -18,9 +18,11 @@ class DownloadCropImageSaveSingleEvent extends DownloadCropImageEvent {
   final Uint8List imageBytes;
   final int id;
   final MBytes mBytes;
+  final bool share;
   DownloadCropImageSaveSingleEvent({
     required this.imageBytes,
     required this.id,
     required this.mBytes,
+    this.share=false,
   });
 }
