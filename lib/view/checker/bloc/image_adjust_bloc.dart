@@ -13,6 +13,12 @@ part 'image_adjust_state.dart';
 class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
   ValueNotifier<bool> isRunning = ValueNotifier(false);
 
+  set running(bool m) {
+    if (m != isRunning.value) {
+      isRunning.value = m;
+    }
+  }
+
   ImageAdjustBloc() : super(ImageAdjustInitial()) {
     on<ImageAdjustImportImageEvent>((event, emit) async {
       await _importImage(event, emit);

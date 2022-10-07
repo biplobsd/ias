@@ -24,6 +24,7 @@ class CheckerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var animImgBloc = context.read<AnimImageBloc>();
+    var imgAdjBloc = context.read<ImageAdjustBloc>();
     var topContext = context.read<TopContextCubit>().topContextBackup;
     return MultiBlocListener(
       listeners: [
@@ -35,6 +36,8 @@ class CheckerPage extends StatelessWidget {
                   mBytes: state.mBytes,
                 ),
               );
+            } else if (state is ImageAdjustImageUploading) {
+              imgAdjBloc.running = true;
             }
           },
         ),
@@ -44,12 +47,16 @@ class CheckerPage extends StatelessWidget {
                 state is AnimImageSplitting) {
               await Future.delayed(const Duration());
               animImgBloc.add(AnimImageResumeEvent());
+              imgAdjBloc.running = true;
             } else if (state is AnimImageSplittingComplated) {
+              imgAdjBloc.running = false;
               Helper.customToast(
                 context,
                 "Splitting done",
                 ToastMode.success,
               );
+            } else if (state is! AnimImageDecodeing) {
+              imgAdjBloc.running = false;
             }
           },
         ),
@@ -221,6 +228,7 @@ class CheckPageScreen extends StatelessWidget {
                                                       ),
                                                     ),
                                                   IconButton(
+                                                    tooltip: 'Save frame',
                                                     splashRadius: 20,
                                                     onPressed: imageBytes !=
                                                             null
@@ -262,7 +270,7 @@ class CheckPageScreen extends StatelessWidget {
                           TextButton.icon(
                             onPressed: () {},
                             icon: const Icon(Icons.gif_box),
-                            label: const Text('image frame show here'),
+                            label: const Text('image frame show wlll here'),
                           ),
                         ],
                       );
@@ -300,22 +308,32 @@ class UploadWidget extends StatelessWidget {
     var text = 'Import';
     return ValueListenableBuilder<bool>(
       valueListenable: context.read<ImageAdjustBloc>().isRunning,
-      builder: (context, value, child) => Tooltip(
-        message: text,
-        waitDuration: const Duration(seconds: 1),
-        child: TextButton.icon(
-          onPressed: value
-              ? null
-              : () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  context.read<ResetCpCubit>().reset();
-                  context
-                      .read<ImageAdjustBloc>()
-                      .add(ImageAdjustImportImageEvent());
-                },
-          icon: const Icon(Icons.upload),
-          label: Text(isSmallScreen ? '' : text),
-        ),
+      builder: (context, value, child) => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: value
+            ? SizedBox(
+                key: UniqueKey(),
+                height: 20,
+                width: 20,
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                ))
+            : Tooltip(
+                key: UniqueKey(),
+                message: text,
+                waitDuration: const Duration(seconds: 1),
+                child: TextButton.icon(
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.read<ResetCpCubit>().reset();
+                    context
+                        .read<ImageAdjustBloc>()
+                        .add(ImageAdjustImportImageEvent());
+                  },
+                  icon: const Icon(Icons.upload),
+                  label: Text(isSmallScreen ? '' : text),
+                ),
+              ),
       ),
     );
   }
