@@ -37,7 +37,7 @@ class ThemeManager {
         ? baseTheme.appBarTheme.copyWith(
             systemOverlayStyle: SystemUiOverlayStyle.dark,
             backgroundColor: bgColor,
-            toolbarTextStyle: baseTheme.textTheme.caption!.copyWith(
+            toolbarTextStyle: baseTheme.textTheme.bodySmall!.copyWith(
               color: mainLightBgColor,
             ),
             iconTheme: IconThemeData(

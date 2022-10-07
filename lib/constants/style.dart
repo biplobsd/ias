@@ -9,7 +9,7 @@ BoxDecoration continarDeco(BuildContext context) {
   return BoxDecoration(
     color: Theme.of(context).cardTheme.color,
     border:
-        Border.all(color: Theme.of(context).backgroundColor.withOpacity(0.3)),
+        Border.all(color: Theme.of(context).colorScheme.background.withOpacity(0.3)),
     borderRadius: BorderRadius.circular(10),
   );
 }
@@ -17,7 +17,7 @@ BoxDecoration continarDeco(BuildContext context) {
 OutlineInputBorder searchInputbrStyle(BuildContext context) =>
     OutlineInputBorder(
       borderSide: BorderSide(
-          color: Theme.of(context).backgroundColor.withOpacity(0.3),
+          color: Theme.of(context).colorScheme.background.withOpacity(0.3),
           width: 1.0),
       borderRadius: BorderRadius.circular(10),
     );

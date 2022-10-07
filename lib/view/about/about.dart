@@ -77,7 +77,7 @@ class About extends StatelessWidget {
                   "Developed by SpeedOut, 2022",
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
+                      .bodySmall!
                       .copyWith(fontSize: 9),
                 ),
               ),

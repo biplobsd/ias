@@ -24,7 +24,7 @@ class HorizonApi {
       );
     } on Exception {
       // print(e);
-      return null;
+      return;
     }
     // if (kDebugMode) {
     //   print('Accounts Data: ${response.data['balances']}');

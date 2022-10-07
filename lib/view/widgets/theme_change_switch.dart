@@ -19,7 +19,7 @@ class ThemeChangeSwitch extends StatelessWidget {
           borderRadius: 30.0,
           padding: 5.0,
           activeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-          inactiveColor: Theme.of(context).backgroundColor.withOpacity(0.2),
+          inactiveColor: Theme.of(context).colorScheme.background.withOpacity(0.2),
           activeIcon: const Icon(
             Icons.nightlight_round,
             color: Color(0xFFF8E3A1),
