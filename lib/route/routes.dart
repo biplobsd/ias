@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
-
 import '../data/repository/horizon.dart';
 import '../view/about/about.dart';
-import '../view/asset_holder/asset_holder.dart';
 import '../view/checker/check_page.dart';
-import '../view/history/history.dart';
 import '../view/layout/layout.dart';
 import '../view/privacy_policy/privacy_policy.dart';
 import '../view/setting/setting_page.dart';
-import '../view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class Routes {
   final Horizon horizon;
@@ -36,18 +31,6 @@ class Routes {
           type: PageTransitionType.scale,
           alignment: Alignment.centerLeft,
           child: const SiteLayoutPage(),
-        );
-      case AssetHolderPage.pathName:
-        return PageTransition(
-          type: PageTransitionType.scale,
-          alignment: Alignment.centerLeft,
-          child: const AssetHolderPage(),
-        );
-      case HistoryPage.pathName:
-        return PageTransition(
-          type: PageTransitionType.scale,
-          alignment: Alignment.centerLeft,
-          child: const HistoryPage(),
         );
       case About.pathName:
         return PageTransition(

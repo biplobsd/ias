@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/responsiveness.dart';
+import '../widgets/style.dart';
+import '../widgets/theme_change_switch.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -9,12 +11,27 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: ResponsiveWidget.isSmallScreen(context) ? 20 : 0),
-      child: const Scaffold(
-        body: Center(
-          child: Text('Settings'),
+    bool isSmall = ResponsiveWidget.isSmallScreen(context);
+    double getPadding = isSmall ? 20 : 0;
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: getPadding, right: getPadding, left: getPadding),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (isSmall)
+                Column(
+                  children: const [
+                    CustomTextHeader(text: 'Theme mode'),
+                    ThemeChangeSwitch(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+            ],
+          ),
         ),
       ),
     );

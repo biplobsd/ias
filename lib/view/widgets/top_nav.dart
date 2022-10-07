@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +12,7 @@ import 'theme_change_switch.dart';
 
 AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
   context.read<TopContextCubit>().topContextBackup = context;
+  var isSmallS = ResponsiveWidget.isSmallScreen(context);
   return AppBar(
     leadingWidth: !ResponsiveWidget.isSmallScreen(context) ? 145 : null,
     toolbarHeight: !ResponsiveWidget.isSmallScreen(context) ? 140 : null,
@@ -41,17 +44,18 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
           const SizedBox(
             height: 3,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 0.3),
-            child: PowerBy(),
-          )
+          if (!isSmallS)
+            const Padding(
+              padding: EdgeInsets.only(left: 0.3),
+              child: PowerBy(),
+            )
         ],
       ),
       const Spacer(),
-      const ThemeChangeSwitch(),
-      if (!ResponsiveWidget.isSmallScreen(context))
-        const SizedBox(
-          width: 10,
+      if (!isSmallS)
+        const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: ThemeChangeSwitch(),
         ),
     ]),
     iconTheme: IconThemeData(
