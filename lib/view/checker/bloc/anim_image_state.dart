@@ -5,52 +5,33 @@ abstract class AnimImageState {}
 
 class AnimImageInitial extends AnimImageState {}
 
-class AnimImageCroping extends AnimImageState {
-  final int pixelLength;
-  final int breakPoint;
+class AnimImageSplitting extends AnimImageState {
   final Uint8List imageBytes;
-  AnimImageCroping({
-    required this.pixelLength,
-    required this.breakPoint,
+  final int id;
+  AnimImageSplitting({
     required this.imageBytes,
+    required this.id,
   });
 }
 
-class AnimImageCropingBuildComplated extends AnimImageCroping {
-  final int done;
-  final int frameSize;
-  AnimImageCropingBuildComplated({
-    required super.pixelLength,
-    required super.breakPoint,
-    required super.imageBytes,
-    required this.done,
-    required this.frameSize,
-  });
-}
-
-class AnimImageCroped extends AnimImageState {
-  final List<Uint8List> cropedAnim;
+class AnimImageSplittingComplated extends AnimImageState {
+  final List<Uint8List> pixelBytes;
   final MBytes mBytes;
-
-  AnimImageCroped({
-    required this.cropedAnim,
+  AnimImageSplittingComplated({
+    required this.pixelBytes,
     required this.mBytes,
   });
 }
 
 class AnimImageStop extends AnimImageState {}
 
-class AnimImageEncodeingLoop extends AnimImageState {}
-
-class AnimImageDecodeing extends AnimImageState {}
-
-class AnimImageEncodingUpdate extends AnimImageState {
-  final int total;
-  final int count;
-  AnimImageEncodingUpdate({
-    required this.total,
-    required this.count,
+class AnimImageFrameSizeUpdate extends AnimImageState {
+  final int frameLen;
+  AnimImageFrameSizeUpdate({
+    required this.frameLen,
   });
 }
+
+class AnimImageDecodeing extends AnimImageState {}
 
 class AnimImageError extends AnimImageState {}

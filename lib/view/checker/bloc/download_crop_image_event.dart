@@ -5,7 +5,7 @@ abstract class DownloadCropImageEvent {}
 
 class DownloadCropImageSaveEvent extends DownloadCropImageEvent {
   final MBytes mainImage;
-  final List<dynamic> pixels;
+  final List<Uint8List> pixels;
   final PackageInfo packageInfo;
   DownloadCropImageSaveEvent({
     required this.mainImage,

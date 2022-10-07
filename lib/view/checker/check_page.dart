@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ias/utility/function/helper.dart';
+import 'package:ias/view/checker/bloc/anim_image_bloc.dart';
 
 import '../widgets/responsiveness.dart';
 import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
@@ -18,7 +20,38 @@ class CheckerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CheckPageScreen();
+    var animImgBloc = context.read<AnimImageBloc>();
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ImageAdjustBloc, ImageAdjustState>(
+          listener: (context, state) {
+            if (state is ImageAdjustImported) {
+              animImgBloc.add(
+                AnimImageStartEvent(
+                  mBytes: state.mBytes,
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<AnimImageBloc, AnimImageState>(
+          listener: (context, state) async {
+            if (state is AnimImageFrameSizeUpdate ||
+                state is AnimImageSplitting) {
+              await Future.delayed(const Duration());
+              animImgBloc.add(AnimImageResumeEvent());
+            } else if (state is AnimImageSplittingComplated) {
+              Helper.customToast(
+                context,
+                "Splitting done",
+                ToastMode.success,
+              );
+            }
+          },
+        ),
+      ],
+      child: const CheckPageScreen(),
+    );
   }
 }
 
@@ -53,7 +86,56 @@ class CheckPageScreen extends StatelessWidget {
                   if (!isSmallScreen) controlWidget
                 ],
               ),
-              if (isSmallScreen) controlWidget,
+              if (isSmallScreen)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: controlWidget,
+                ),
+              BlocBuilder<AnimImageBloc, AnimImageState>(
+                buildWhen: (previous, current) =>
+                    current is AnimImageFrameSizeUpdate ||
+                    current is AnimImageInitial,
+                builder: (context, state) {
+                  if (state is AnimImageFrameSizeUpdate) {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.frameLen,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: isSmallScreen ? 2 : 5,
+                        mainAxisSpacing: 3.0,
+                        crossAxisSpacing: 3.0,
+                      ),
+                      itemBuilder: (context, index) =>
+                          BlocBuilder<AnimImageBloc, AnimImageState>(
+                        buildWhen: (previous, current) =>
+                            current is AnimImageSplitting &&
+                            current.id == index,
+                        builder: (context, state) {
+                          Widget? child;
+                          if (state is AnimImageSplitting) {
+                            child = Image.memory(
+                              state.imageBytes,
+                            );
+                          }
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
+                              ),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              )
             ],
           ),
         ),
@@ -105,14 +187,11 @@ class DownloadWidget extends StatelessWidget {
     return BlocBuilder<PackageinfoCubit, PackageinfoState>(
       builder: (context, statepkinfo) {
         if (statepkinfo is PackageinfoFound) {
-          return BlocBuilder<ImageAdjustBloc, ImageAdjustState>(
-            buildWhen: (previous, current) =>
-                (current is ImageAdjustCroped && current.isFinal) ||
-                current is ImageAdjustImageUploading,
-            builder: (context, stateImgAdj) {
+          return BlocBuilder<AnimImageBloc, AnimImageState>(
+            builder: (context, stateAnim) {
               return BlocBuilder<DownloadCropImageBloc, DownloadCropImageState>(
                 builder: (context, state) {
-                  var isNotRunning = stateImgAdj is ImageAdjustCroped &&
+                  var isNotRunning = stateAnim is AnimImageSplittingComplated &&
                       (state is DownloadCropImageError ||
                           state is DownloadCropImageDone ||
                           state is DownloadCropImageInitial);
@@ -123,8 +202,8 @@ class DownloadWidget extends StatelessWidget {
                       context
                           .read<DownloadCropImageBloc>()
                           .add(DownloadCropImageSaveEvent(
-                            mainImage: stateImgAdj.mainImage,
-                            pixels: stateImgAdj.pixelCropData,
+                            mainImage: stateAnim.mBytes,
+                            pixels: stateAnim.pixelBytes,
                             packageInfo: statepkinfo.packageInfo,
                           ));
                     };

@@ -10,22 +10,18 @@ part 'anim_image_state.dart';
 
 class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
   late List<crop.Image> anim;
-  late List<crop.Animation> outputAnim;
   late List<Uint8List> pixelBytes;
   late bool runningLock;
   MBytes? mBytes;
-  int? breakPoint;
-  int? pixelLength;
   int? frameSize;
   crop.Image? currentImage;
+  late int count;
 
   void _reset() {
+    count = 0;
     anim = [];
-    outputAnim = [];
     pixelBytes = [];
     mBytes = null;
-    breakPoint = null;
-    pixelLength = null;
     frameSize = null;
     currentImage = null;
     runningLock = false;
@@ -35,45 +31,22 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     if (anim.isNotEmpty) {
       currentImage = anim.removeAt(0);
       var imgBytes = crop.encodePng(currentImage!) as Uint8List;
+      pixelBytes.add(imgBytes);
       emit(
-        AnimImageCroping(
-          breakPoint: breakPoint!,
-          pixelLength: pixelLength!,
+        AnimImageSplitting(
           imageBytes: imgBytes,
+          id: count,
         ),
       );
+      count++;
     } else {
       runningLock = false;
-      _encondingAnim(emit: emit);
-    }
-  }
-
-  void _encondingAnim({required Emitter<AnimImageState> emit}) {
-    if (outputAnim.isNotEmpty) {
-      switch (mBytes!.extension) {
-        case 'gif':
-          pixelBytes.add(
-              crop.encodeGifAnimation(outputAnim.removeAt(0)) as Uint8List);
-          emit(AnimImageEncodingUpdate(
-            count: outputAnim.length,
-            total: pixelLength!,
-          ));
-          break;
-        case 'apng':
-          pixelBytes.add(
-              crop.encodePngAnimation(outputAnim.removeAt(0)) as Uint8List);
-          emit(AnimImageEncodingUpdate(
-            count: outputAnim.length,
-            total: pixelLength!,
-          ));
-
-          break;
-      }
-    } else {
-      emit(AnimImageCroped(
-        cropedAnim: pixelBytes,
-        mBytes: mBytes!,
-      ));
+      emit(
+        AnimImageSplittingComplated(
+          pixelBytes: pixelBytes,
+          mBytes: mBytes!,
+        ),
+      );
     }
   }
 
@@ -82,8 +55,6 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       _reset();
       emit(AnimImageDecodeing());
       mBytes = event.mBytes;
-      pixelLength = event.pixelLength;
-      breakPoint = event.breakPoint;
       runningLock = true;
       var animRaw = await compute<DecodeImageModel, DecodeImgOut>(
         decodeImage,
@@ -95,55 +66,22 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       anim = animRaw.list!;
 
       frameSize = anim.length;
-
-      for (var i = 0; i < event.pixelLength; i++) {
-        outputAnim.add(crop.Animation());
-      }
-
-      _emitNremove(
-        emit: emit,
+      emit(
+        AnimImageFrameSizeUpdate(
+          frameLen: frameSize!,
+        ),
       );
     });
-
-    crop.Image imageProfileSet(crop.Image n, crop.Image o) {
-      n.channels = o.channels;
-      n.xOffset = o.xOffset;
-      n.yOffset = o.yOffset;
-      n.duration = o.duration;
-      n.blendMethod = o.blendMethod;
-      n.iccProfile = o.iccProfile;
-      return n;
-    }
 
     on<AnimImageResumeEvent>((event, emit) {
-      for (var i = 0; i < event.pixelCropData.length; i++) {
-        outputAnim[i].addFrame(
-          imageProfileSet(event.pixelCropData[i], currentImage!),
-        );
-      }
-
       _emitNremove(
         emit: emit,
       );
-    });
-
-    on<AnimImageEncodingResumeEvent>((event, emit) {
-      _encondingAnim(emit: emit);
     });
 
     on<AnimImageResetEvent>((event, emit) {
       _reset();
       emit(AnimImageInitial());
-    });
-
-    on<AnimImageCaptureEvent>((event, emit) {
-      emit(AnimImageCropingBuildComplated(
-        breakPoint: breakPoint!,
-        pixelLength: pixelLength!,
-        imageBytes: event.imageBytes,
-        done: anim.length,
-        frameSize: frameSize!,
-      ));
     });
   }
 }

@@ -11,12 +11,9 @@ part 'image_adjust_event.dart';
 part 'image_adjust_state.dart';
 
 class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
-  Uint8List? bytes;
-  MBytes? uploadImage;
   ValueNotifier<bool> isRunning = ValueNotifier(false);
 
   ImageAdjustBloc() : super(ImageAdjustInitial()) {
-
     on<ImageAdjustImportImageEvent>((event, emit) async {
       await _importImage(event, emit);
     });
@@ -32,8 +29,11 @@ class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
     emit(ImageAdjustImageUploading());
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['png', 'jpeg', 'gif', 'ttf', 'apng', 'jpg'],
-      dialogTitle: 'Seleted only image file',
+      allowedExtensions: [
+        'gif',
+        'apng',
+      ],
+      dialogTitle: 'Seleted only image animated file',
     );
 
     if (result != null && result.files.isNotEmpty) {
@@ -56,14 +56,15 @@ class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
       }
       String extension = single.extension.toString();
       if (importJsonRaw != null) {
-        uploadImage = MBytes(
-          isAnim: ['apng', 'gif'].contains(extension),
-          bytes: importJsonRaw,
-          extension: extension,
-          path: path,
+        emit(
+          ImageAdjustImported(
+            mBytes: MBytes(
+              bytes: importJsonRaw,
+              extension: extension,
+              path: path,
+            ),
+          ),
         );
-
-        emit(ImageAdjustUpdated());
         return;
       }
     }
@@ -71,8 +72,5 @@ class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
     emit(ImageAdjustImageError());
   }
 
-  Future<void> _clear() async {
-    bytes = null;
-    uploadImage = null;
-  }
+  Future<void> _clear() async {}
 }

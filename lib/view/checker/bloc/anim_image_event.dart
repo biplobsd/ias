@@ -6,13 +6,9 @@ abstract class AnimImageEvent {}
 
 class AnimImageStartEvent extends AnimImageEvent {
   final MBytes mBytes;
-  final int pixelLength;
-  final int breakPoint;
 
   AnimImageStartEvent({
     required this.mBytes,
-    required this.breakPoint,
-    required this.pixelLength,
   });
 }
 
@@ -28,15 +24,11 @@ class AnimImageCaptureEvent extends AnimImageEvent {
 }
 
 class AnimImageResumeEvent extends AnimImageEvent {
-  final List<crop.Image> pixelCropData;
-  AnimImageResumeEvent({
-    required this.pixelCropData,
-  });
+  AnimImageResumeEvent();
 }
 
 class AnimImageEncodingResumeEvent extends AnimImageEvent {
-  AnimImageEncodingResumeEvent(
-  );
+  AnimImageEncodingResumeEvent();
 }
 
 class AnimImageResetEvent extends AnimImageEvent {
