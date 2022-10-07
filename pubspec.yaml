@@ -58,10 +58,15 @@ dependencies:
   lecle_downloads_path_provider: ^0.0.2+7
   path: ^1.8.2
   path_provider: ^2.0.11
+  cross_file: ^0.3.3+2
   download:
     git: https://github.com/biplobsd/dart_download.git
-  share_plus: ^4.5.3
-  cross_file: ^0.3.3+2
+  share_plus:
+    git: 
+      url: https://github.com/fluttercommunity/plus_plugins.git
+      ref: main
+      path: packages/share_plus/share_plus
+  
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,8 +89,10 @@ class CheckerPage extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await Share.shareFiles(
-                            [state.fileName],
+                          await Share.shareXFiles(
+                            [
+                              XFile(state.fileName),
+                            ],
                             text: state.fileName,
                           );
                         },
