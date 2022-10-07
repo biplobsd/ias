@@ -13,18 +13,18 @@ class ThemeManager {
     var baseTheme = ThemeData(
         brightness: brightness,
         primarySwatch: const MaterialColor(
-          0xFFE040FB,
+          0xFF2196F3,
           <int, Color>{
-            50: Color(0xFFF3E5F5),
-            100: Color(0xFFEA80FC),
-            200: Color(0xFFCE93D8),
-            300: Color(0xFFBA68C8),
-            400: Color(0xFFD500F9),
-            500: Color(0xFF9C27B0),
-            600: Color(0xFF8E24AA),
-            700: Color(0xFFAA00FF),
-            800: Color(0xFF6A1B9A),
-            900: Color(0xFF4A148C),
+            50: Color(0xFFE3F2FD),
+            100: Color(0xFF82B1FF),
+            200: Color(0xFF448AFF),
+            300: Color(0xFF64B5F6),
+            400: Color(0xFF2979FF),
+            500: Color(0xFF2196F3),
+            600: Color(0xFF1E88E5),
+            700: Color(0xFF2962FF),
+            800: Color(0xFF1565C0),
+            900: Color(0xFF0D47A1),
           },
         ));
     var mainLightBgColor = mainColor['mainLightBgColor'];
