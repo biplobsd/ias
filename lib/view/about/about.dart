@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/constants/url.dart';
-import 'package:preloadwebapptemplate/view/widgets/power_by.dart';
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../constants/string.dart';
+import '../../constants/url.dart';
 import '../../utility/function/helper.dart';
+import '../widgets/power_by.dart';
+import '../widgets/responsiveness.dart';
+import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class About extends StatelessWidget {
   static const String pathName = '/about';

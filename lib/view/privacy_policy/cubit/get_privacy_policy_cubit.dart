@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:preloadwebapptemplate/data/repository/horizon.dart';
+
+import '../../../data/repository/horizon.dart';
 
 part 'get_privacy_policy_state.dart';
 

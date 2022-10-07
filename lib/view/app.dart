@@ -4,20 +4,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/constants/theme/bloc/theme_bloc.dart';
-import 'package:preloadwebapptemplate/route/routes.dart';
 
-import 'package:preloadwebapptemplate/view/layout/layout.dart';
-import 'package:preloadwebapptemplate/view/setting/cubit/setting_config_cubit.dart';
-
+import '../constants/string.dart';
+import '../constants/theme/bloc/theme_bloc.dart';
 import '../constants/theme/theme_manager.dart';
 import '../core/cubit/top_context_cubit.dart';
 import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
+import '../route/routes.dart';
 import '../utility/function/helper.dart';
+import 'layout/layout.dart';
 import 'privacy_policy/cubit/get_privacy_policy_cubit.dart';
 import 'privacy_policy/privacy_policy.dart';
+import 'setting/cubit/setting_config_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

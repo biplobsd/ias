@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
-import 'package:preloadwebapptemplate/view/history/history.dart';
-import 'package:preloadwebapptemplate/view/checker/check_page.dart';
-import 'package:preloadwebapptemplate/view/privacy_policy/privacy_policy.dart';
-import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
-import 'package:preloadwebapptemplate/data/model/menu_data.dart';
+
+import '../../view/asset_holder/asset_holder.dart';
+import '../../view/checker/check_page.dart';
+import '../../view/history/history.dart';
+import '../../view/privacy_policy/privacy_policy.dart';
+import '../../view/setting/setting_page.dart';
+import '../model/menu_data.dart';
 
 final List<MenuData> sideMenuList = [
   MenuData(

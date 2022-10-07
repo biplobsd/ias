@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/core/cubit/top_context_cubit.dart';
-import 'package:preloadwebapptemplate/route/routes.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
-import 'package:preloadwebapptemplate/data/constants/side_menu_list.dart';
+
+import '../../core/cubit/top_context_cubit.dart';
+import '../../data/constants/side_menu_list.dart';
+import '../../route/routes.dart';
+import 'side_menu/cubit/sidemenuonactive_cubit.dart';
 
 Navigator localNavigator(BuildContext context) => Navigator(
       key: BlocProvider.of<SidemenuonactiveCubit>(context).navigationKey,
-      initialRoute: sideMenuList[0].path,
+      initialRoute: sideMenuList.first.path,
       onGenerateRoute: Routes(
         horizon: context.read<TopContextCubit>().horizon,
       ).onGenerateRoute,

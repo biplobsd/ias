@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/constants/constants.dart';
+
+import '../../constants/constants.dart';
 
 class ResponsiveWidget extends StatelessWidget {
   final Widget? largePage;

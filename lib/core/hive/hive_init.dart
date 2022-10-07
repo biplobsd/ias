@@ -1,6 +1,8 @@
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/data/model/hive/settings.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../constants/string.dart';
+import '../../data/model/hive/settings.dart';
 
 class HiveInit {
   static Future<void> fireUp() async {

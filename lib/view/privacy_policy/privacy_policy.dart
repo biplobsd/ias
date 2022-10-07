@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:preloadwebapptemplate/view/privacy_policy/cubit/get_privacy_policy_cubit.dart';
+
+import 'cubit/get_privacy_policy_cubit.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   static const String pathName = '/privacy_policy';

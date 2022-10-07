@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
+
+import '../widgets/responsiveness.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);

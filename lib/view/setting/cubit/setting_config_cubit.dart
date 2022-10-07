@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
 
+import '../../../constants/string.dart';
 import '../../../data/model/hive/settings.dart';
 part 'setting_config_state.dart';
 

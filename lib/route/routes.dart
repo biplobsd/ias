@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/view/about/about.dart';
-import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
-import 'package:preloadwebapptemplate/view/history/history.dart';
-import 'package:preloadwebapptemplate/view/checker/check_page.dart';
-import 'package:preloadwebapptemplate/view/layout/layout.dart';
-import 'package:preloadwebapptemplate/view/privacy_policy/privacy_policy.dart';
-import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/repository/horizon.dart';
+import '../view/about/about.dart';
+import '../view/asset_holder/asset_holder.dart';
+import '../view/checker/check_page.dart';
+import '../view/history/history.dart';
+import '../view/layout/layout.dart';
+import '../view/privacy_policy/privacy_policy.dart';
+import '../view/setting/setting_page.dart';
+import '../view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class Routes {
   final Horizon horizon;

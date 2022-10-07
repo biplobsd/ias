@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
+
+import '../widgets/responsiveness.dart';
 
 class HistoryPage extends StatelessWidget {
   static const String pathName = '/history';

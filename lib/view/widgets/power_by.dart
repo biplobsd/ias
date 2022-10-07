@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/constants/url.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/string.dart';
+import '../../constants/url.dart';
 
 class PowerBy extends StatelessWidget {
   const PowerBy({
