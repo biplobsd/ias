@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:preloadwebapptemplate/data/provider/path/horizon_path.dart';
+import 'package:ias/data/provider/path/horizon_path.dart';
 
 class HorizonApi {
   late Dio client;

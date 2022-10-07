@@ -1,4 +1,4 @@
-import 'package:preloadwebapptemplate/data/provider/horizon_api.dart';
+import 'package:ias/data/provider/horizon_api.dart';
 
 class Horizon {
   late HorizonApi horizonApi;

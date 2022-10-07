@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
+import 'package:ias/view/widgets/responsiveness.dart';
 
 class AssetHolderPage extends StatelessWidget {
   static const String pathName = '/assetHolder';

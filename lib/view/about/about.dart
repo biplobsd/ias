@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/constants/url.dart';
-import 'package:preloadwebapptemplate/view/widgets/power_by.dart';
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
+import 'package:ias/constants/string.dart';
+import 'package:ias/constants/url.dart';
+import 'package:ias/view/widgets/power_by.dart';
+import 'package:ias/view/widgets/responsiveness.dart';
+import 'package:ias/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utility/function/helper.dart';

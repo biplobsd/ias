@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/view/layout/large/large_page.dart';
-import 'package:preloadwebapptemplate/view/layout/small/small_page.dart';
-import 'package:preloadwebapptemplate/view/widgets/responsiveness.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
-import 'package:preloadwebapptemplate/data/model/menu_data.dart';
-import 'package:preloadwebapptemplate/data/constants/side_menu_list.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/side_menu.dart';
-import 'package:preloadwebapptemplate/view/widgets/top_nav.dart';
+import 'package:ias/view/layout/large/large_page.dart';
+import 'package:ias/view/layout/small/small_page.dart';
+import 'package:ias/view/widgets/responsiveness.dart';
+import 'package:ias/view/widgets/side_menu/cubit/sidemenuonactive_cubit.dart';
+import 'package:ias/data/model/menu_data.dart';
+import 'package:ias/data/constants/side_menu_list.dart';
+import 'package:ias/view/widgets/side_menu/side_menu.dart';
+import 'package:ias/view/widgets/top_nav.dart';
 
 class SiteLayoutPage extends StatelessWidget {
   static const String pathName = '/sitelayout';

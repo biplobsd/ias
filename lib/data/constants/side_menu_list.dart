@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
-import 'package:preloadwebapptemplate/view/history/history.dart';
-import 'package:preloadwebapptemplate/view/checker/check_page.dart';
-import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
-import 'package:preloadwebapptemplate/data/model/menu_data.dart';
+import 'package:ias/view/asset_holder/asset_holder.dart';
+import 'package:ias/view/history/history.dart';
+import 'package:ias/view/checker/check_page.dart';
+import 'package:ias/view/setting/setting_page.dart';
+import 'package:ias/data/model/menu_data.dart';
 
 final List<MenuData> sideMenuList = [
   MenuData(

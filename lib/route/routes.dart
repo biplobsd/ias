@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:preloadwebapptemplate/view/about/about.dart';
-import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
-import 'package:preloadwebapptemplate/view/history/history.dart';
-import 'package:preloadwebapptemplate/view/checker/check_page.dart';
-import 'package:preloadwebapptemplate/view/layout/layout.dart';
-import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
-import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
+import 'package:ias/view/about/about.dart';
+import 'package:ias/view/asset_holder/asset_holder.dart';
+import 'package:ias/view/history/history.dart';
+import 'package:ias/view/checker/check_page.dart';
+import 'package:ias/view/layout/layout.dart';
+import 'package:ias/view/setting/setting_page.dart';
+import 'package:ias/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/repository/horizon.dart';

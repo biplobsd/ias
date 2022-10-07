@@ -2,11 +2,11 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:preloadwebapptemplate/constants/string.dart';
-import 'package:preloadwebapptemplate/constants/theme/bloc/theme_bloc.dart';
-import 'package:preloadwebapptemplate/route/routes.dart';
+import 'package:ias/constants/string.dart';
+import 'package:ias/constants/theme/bloc/theme_bloc.dart';
+import 'package:ias/route/routes.dart';
 
-import 'package:preloadwebapptemplate/view/layout/layout.dart';
+import 'package:ias/view/layout/layout.dart';
 
 import '../constants/theme/theme_manager.dart';
 import '../core/cubit/top_context_cubit.dart';

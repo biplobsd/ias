@@ -1,4 +1,4 @@
-import 'package:preloadwebapptemplate/constants/string.dart';
+import 'package:ias/constants/string.dart';
 
 class AppUrl {
   static final Uri speedOut = Uri.parse(AppString.devInfoUrl);
