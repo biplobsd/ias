@@ -13,3 +13,14 @@ class DownloadCropImageSaveEvent extends DownloadCropImageEvent {
     required this.packageInfo,
   });
 }
+
+class DownloadCropImageSaveSingleEvent extends DownloadCropImageEvent {
+  final Uint8List imageBytes;
+  final int id;
+  final MBytes mBytes;
+  DownloadCropImageSaveSingleEvent({
+    required this.imageBytes,
+    required this.id,
+    required this.mBytes,
+  });
+}

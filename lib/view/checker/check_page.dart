@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ias/core/cubit/top_context_cubit.dart';
 import 'package:ias/utility/function/helper.dart';
 import 'package:ias/view/checker/bloc/anim_image_bloc.dart';
+import 'package:ndialog/ndialog.dart';
 
 import '../widgets/responsiveness.dart';
 import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
@@ -21,6 +24,7 @@ class CheckerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var animImgBloc = context.read<AnimImageBloc>();
+    var topContext = context.read<TopContextCubit>().topContextBackup;
     return MultiBlocListener(
       listeners: [
         BlocListener<ImageAdjustBloc, ImageAdjustState>(
@@ -49,6 +53,32 @@ class CheckerPage extends StatelessWidget {
             }
           },
         ),
+        BlocListener<DownloadCropImageBloc, DownloadCropImageState>(
+          listener: (context, state) async {
+            if (state is DownloadCropImageDone) {
+              if (kIsWeb) {
+                Helper.customToast(
+                    context, 'Save ${state.fileName}', ToastMode.success);
+              } else {
+                await NDialog(
+                  title: const Text('Save successful'),
+                  content: Text('File save into ${state.fileName}'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(topContext);
+                      },
+                      child: const Text('Close'),
+                    )
+                  ],
+                ).show(
+                  topContext,
+                  transitionType: DialogTransitionType.Bubble,
+                );
+              }
+            }
+          },
+        )
       ],
       child: const CheckPageScreen(),
     );
@@ -65,6 +95,8 @@ class CheckPageScreen extends StatelessWidget {
     double sizedR = !ResponsiveWidget.isSmallScreen(context) ? 200 : 100;
     double sizedRPadding = !ResponsiveWidget.isSmallScreen(context) ? 0 : 10;
     bool isSmallScreen = ResponsiveWidget.isSmallScreen(context);
+
+    var downloadImgB = context.read<DownloadCropImageBloc>();
     var controlWidget = Row(
       mainAxisSize: MainAxisSize.min,
       children: const [
@@ -117,7 +149,7 @@ class CheckPageScreen extends StatelessWidget {
                               state.imageBytes,
                             );
                           }
-                          return Container(
+                          return Ink(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -127,7 +159,54 @@ class CheckPageScreen extends StatelessWidget {
                               ),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: child,
+                            child: Stack(
+                              children: [
+                                if (child != null) child,
+                                Opacity(
+                                  opacity: 0.5,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8, top: 5),
+                                    child: Text(
+                                      (index + 1).toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Opacity(
+                                    opacity: 0.4,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          splashRadius: 20,
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.share_rounded),
+                                        ),
+                                        IconButton(
+                                          splashRadius: 20,
+                                          onPressed: state is AnimImageSplitting
+                                              ? () {
+                                                  downloadImgB.add(
+                                                      DownloadCropImageSaveSingleEvent(
+                                                    id: state.id,
+                                                    imageBytes:
+                                                        state.imageBytes,
+                                                    mBytes: state.mBytes,
+                                                  ));
+                                                }
+                                              : null,
+                                          icon: const Icon(Icons.save),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           );
                         },
                       ),

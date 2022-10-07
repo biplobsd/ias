@@ -19,39 +19,68 @@ part 'download_crop_image_state.dart';
 
 class DownloadCropImageBloc
     extends Bloc<DownloadCropImageEvent, DownloadCropImageState> {
+  Future<String?> _outputPath(
+      String pre, Emitter<DownloadCropImageState> emit) async {
+    String outFilename = pre;
+    if (!kIsWeb) {
+      String? savePath;
+      if (Platform.isAndroid) {
+        String? downloadsDirectoryPath =
+            (await DownloadsPath.downloadsDirectory())?.path;
+        if (downloadsDirectoryPath == null) {
+          emit(DownloadCropImageError(
+              errorMsg: 'Error while getting file save path'));
+          return null;
+        }
+        savePath = downloadsDirectoryPath;
+      } else {
+        savePath = (await getApplicationDocumentsDirectory()).path;
+      }
+
+      String pathDir = path.join(savePath, AppString.shortName);
+      Directory(pathDir).createSync();
+      outFilename = path.join(pathDir, outFilename);
+      if (kDebugMode) {
+        print(outFilename);
+      }
+    }
+    return outFilename;
+  }
+
   DownloadCropImageBloc() : super(DownloadCropImageInitial()) {
+    on<DownloadCropImageSaveSingleEvent>((event, emit) async {
+      var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
+      String outFilename =
+          '${event.id}_${path.basename(event.mBytes.path).substring(0, event.mBytes.extension.length)}_$dateTimeNow.png';
+      var m = await _outputPath(outFilename, emit);
+      if (m == null) {
+        return;
+      } else {
+        outFilename = m;
+      }
+      try {
+        download(event.imageBytes, outFilename);
+      } on Exception catch (e) {
+        emit(DownloadCropImageError(
+          errorMsg: '$e',
+        ));
+        return;
+      }
+      emit(DownloadCropImageDone(fileName: outFilename));
+    });
+
     on<DownloadCropImageSaveEvent>((event, emit) async {
       emit(DownloadCropImageZiping());
       final List<Uint8List> pixels;
-      final String extension;
-
-      pixels = event.pixels as List<Uint8List>;
-      extension = event.mainImage.extension;
+      pixels = event.pixels;
 
       var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
-      String outFilename =
-          '$dateTimeNow.zip';
-      if (!kIsWeb) {
-        String? savePath;
-        if (Platform.isAndroid) {
-          String? downloadsDirectoryPath =
-              (await DownloadsPath.downloadsDirectory())?.path;
-          if (downloadsDirectoryPath == null) {
-            emit(DownloadCropImageError(
-                errorMsg: 'Error while getting file save path'));
-            return;
-          }
-          savePath = downloadsDirectoryPath;
-        } else {
-          savePath = (await getApplicationDocumentsDirectory()).path;
-        }
-
-        String pathDir = path.join(savePath, AppString.shortName);
-        Directory(pathDir).createSync();
-        outFilename = path.join(pathDir, outFilename);
-        if (kDebugMode) {
-          print(outFilename);
-        }
+      String outFilename = '$dateTimeNow.zip';
+      var m = await _outputPath(outFilename, emit);
+      if (m == null) {
+        return;
+      } else {
+        outFilename = m;
       }
 
       ZipEncoder encoder = ZipEncoder();
@@ -73,7 +102,7 @@ class DownloadCropImageBloc
       List<String> pixelsName = [];
       for (var i = 0; i < pixels.length; i++) {
         Uint8List pixleBytes = pixels[i];
-        String fileName = '$i.$extension';
+        String fileName = '$i.png';
         ArchiveFile pixel = ArchiveFile(
           fileName,
           pixleBytes.lengthInBytes,
@@ -120,7 +149,6 @@ class DownloadCropImageBloc
         ));
         return;
       }
-
       emit(DownloadCropImageDone(fileName: outFilename));
     });
   }
