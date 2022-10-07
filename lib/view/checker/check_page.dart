@@ -128,8 +128,10 @@ class CheckPageScreen extends StatelessWidget {
                     current is AnimImageFrameSizeUpdate ||
                     current is AnimImageInitial,
                 builder: (context, state) {
+                  Widget widget;
                   if (state is AnimImageFrameSizeUpdate) {
-                    return GridView.builder(
+                    widget = GridView.builder(
+                      key: UniqueKey(),
                       shrinkWrap: true,
                       itemCount: state.frameLen,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -137,64 +139,77 @@ class CheckPageScreen extends StatelessWidget {
                         mainAxisSpacing: 3.0,
                         crossAxisSpacing: 3.0,
                       ),
-                      itemBuilder: (context, index) =>
-                          BlocBuilder<AnimImageBloc, AnimImageState>(
-                        buildWhen: (previous, current) =>
-                            current is AnimImageSplitting &&
-                            current.id == index,
-                        builder: (context, state) {
-                          Widget? child;
-                          if (state is AnimImageSplitting) {
-                            child = Image.memory(
-                              state.imageBytes,
-                            );
-                          }
-                          return Ink(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.1),
+                      itemBuilder: (context, index) => AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: BlocBuilder<AnimImageBloc, AnimImageState>(
+                          key: UniqueKey(),
+                          buildWhen: (previous, current) =>
+                              current is AnimImageSplitting &&
+                              current.id == index,
+                          builder: (context, state) {
+                            Widget? child;
+                            if (state is AnimImageSplitting) {
+                              child = Image.memory(
+                                state.imageBytes,
+                              );
+                            }
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              switchInCurve: Curves.bounceIn,
+                              switchOutCurve: Curves.bounceInOut,
+                              transitionBuilder: (child, animation) =>
+                                  ScaleTransition(
+                                scale: animation,
+                                child: child,
                               ),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Stack(
-                              children: [
-                                if (child != null) child,
-                                Opacity(
-                                  opacity: 0.5,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 8, top: 5),
-                                    child: Text(
-                                      (index + 1).toString(),
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
+                              child: Ink(
+                                key: UniqueKey(),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1),
                                   ),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Opacity(
-                                      opacity: 0.4,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (Platform.isAndroid)
-                                            IconButton(
-                                              splashRadius: 20,
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.share_rounded,
-                                              ),
-                                            ),
-                                          IconButton(
-                                            splashRadius: 20,
-                                            onPressed:
-                                                state is AnimImageSplitting
+                                child: Stack(
+                                  children: [
+                                    if (child != null) child,
+                                    Opacity(
+                                      opacity: 0.5,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8, top: 5),
+                                        child: Text(
+                                          (index + 1).toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Opacity(
+                                          opacity: 0.4,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              if (Platform.isAndroid)
+                                                IconButton(
+                                                  splashRadius: 20,
+                                                  onPressed: () {},
+                                                  icon: const Icon(
+                                                    Icons.share_rounded,
+                                                  ),
+                                                ),
+                                              IconButton(
+                                                splashRadius: 20,
+                                                onPressed: state
+                                                        is AnimImageSplitting
                                                     ? () {
                                                         downloadImgB.add(
                                                             DownloadCropImageSaveSingleEvent(
@@ -205,21 +220,30 @@ class CheckPageScreen extends StatelessWidget {
                                                         ));
                                                       }
                                                     : null,
-                                            icon: const Icon(Icons.save),
+                                                icon: const Icon(Icons.save),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     );
+                  } else {
+                    widget = SizedBox(
+                      key: UniqueKey(),
+                    );
                   }
-                  return const SizedBox();
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: widget,
+                  );
                 },
               )
             ],
