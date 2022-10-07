@@ -190,23 +190,35 @@ class CheckPageScreen extends StatelessWidget {
                                       border: Border.all(
                                         color: Theme.of(context)
                                             .primaryColor
-                                            .withOpacity(0.1),
+                                            .withOpacity(0.4),
                                       ),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Stack(
                                       children: [
                                         if (child != null) child!,
-                                        Opacity(
-                                          opacity: 0.5,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8, top: 5),
-                                            child: Text(
-                                              index.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8, top: 5),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 3,
+                                            ),
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .primaryColor
+                                                    .withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Opacity(
+                                              opacity: 0.9,
+                                              child: Text(
+                                                index.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -215,40 +227,54 @@ class CheckPageScreen extends StatelessWidget {
                                           child: Align(
                                             alignment: Alignment.bottomRight,
                                             child: Opacity(
-                                              opacity: 0.4,
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  if (Platform.isAndroid)
-                                                    IconButton(
-                                                      splashRadius: 20,
-                                                      onPressed: () {},
-                                                      icon: const Icon(
-                                                        Icons.share_rounded,
+                                              opacity: 0.9,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8, bottom: 5),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.4),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8)),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      if (Platform.isAndroid)
+                                                        IconButton(
+                                                          splashRadius: 20,
+                                                          onPressed: () {},
+                                                          icon: const Icon(
+                                                            Icons.share_rounded,
+                                                          ),
+                                                        ),
+                                                      IconButton(
+                                                        tooltip: 'Save frame',
+                                                        splashRadius: 20,
+                                                        onPressed:
+                                                            imageBytes != null
+                                                                ? () {
+                                                                    downloadImgB
+                                                                        .add(
+                                                                      DownloadCropImageSaveSingleEvent(
+                                                                        id: index,
+                                                                        imageBytes:
+                                                                            imageBytes!,
+                                                                        mBytes:
+                                                                            animImageB.mBytes!,
+                                                                      ),
+                                                                    );
+                                                                  }
+                                                                : null,
+                                                        icon: const Icon(
+                                                            Icons.save),
                                                       ),
-                                                    ),
-                                                  IconButton(
-                                                    tooltip: 'Save frame',
-                                                    splashRadius: 20,
-                                                    onPressed: imageBytes !=
-                                                            null
-                                                        ? () {
-                                                            downloadImgB.add(
-                                                              DownloadCropImageSaveSingleEvent(
-                                                                id: index,
-                                                                imageBytes:
-                                                                    imageBytes!,
-                                                                mBytes:
-                                                                    animImageB
-                                                                        .mBytes!,
-                                                              ),
-                                                            );
-                                                          }
-                                                        : null,
-                                                    icon:
-                                                        const Icon(Icons.save),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ),
