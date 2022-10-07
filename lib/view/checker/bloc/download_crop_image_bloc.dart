@@ -71,6 +71,7 @@ class DownloadCropImageBloc
 
     on<DownloadCropImageSaveEvent>((event, emit) async {
       emit(DownloadCropImageZiping());
+      await Future.delayed(const Duration(milliseconds: 10));
       final List<Uint8List> pixels;
       pixels = event.pixels;
 
