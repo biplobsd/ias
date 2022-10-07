@@ -53,10 +53,7 @@ class Routes {
         return PageTransition(
           type: PageTransitionType.topToBottom,
           alignment: Alignment.center,
-          child: BlocProvider(
-            create: (context) => PackageinfoCubit(),
-            child: const About(),
-          ),
+          child: const About(),
         );
       case PrivacyPolicy.pathName:
         return PageTransition(

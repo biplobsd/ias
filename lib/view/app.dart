@@ -15,10 +15,15 @@ import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
 import '../route/routes.dart';
 import '../utility/function/helper.dart';
+import 'checker/bloc/anim_image_bloc.dart';
+import 'checker/bloc/download_crop_image_bloc.dart';
+import 'checker/bloc/image_adjust_bloc.dart';
+import 'checker/cubit/reset_cp_cubit.dart';
 import 'layout/layout.dart';
 import 'privacy_policy/cubit/get_privacy_policy_cubit.dart';
 import 'privacy_policy/privacy_policy.dart';
 import 'setting/cubit/setting_config_cubit.dart';
+import 'widgets/side_menu/cubit/packageinfo_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -27,8 +32,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var horizon = Horizon(horizonApi: HorizonApi());
     var settingConfCubit = SettingConfigCubit();
+    var animImageBloc = AnimImageBloc();
+    var imageAdjustBloc = ImageAdjustBloc();
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => PackageinfoCubit(),
+        ),
         BlocProvider(
           create: (context) => ThemeBloc(),
         ),
@@ -41,6 +51,21 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => GetPrivacyPolicyCubit(horizon: horizon),
+        ),
+        BlocProvider(
+          create: (context) => animImageBloc,
+        ),
+        BlocProvider(
+          create: (context) => DownloadCropImageBloc(),
+        ),
+        BlocProvider(
+          create: (context) => imageAdjustBloc,
+        ),
+        BlocProvider(
+          create: (context) => ResetCpCubit(
+            animImageBloc: animImageBloc,
+            imageAdjustBloc: imageAdjustBloc,
+          ),
         ),
       ],
       child: MultiBlocListener(
@@ -68,9 +93,11 @@ class MyApp extends StatelessWidget {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: Platform.isAndroid ? () {
-                        SystemNavigator.pop();
-                      } : null,
+                      onPressed: Platform.isAndroid
+                          ? () {
+                              SystemNavigator.pop();
+                            }
+                          : null,
                       child: const Text('Exit'),
                     ),
                     TextButton(
