@@ -20,7 +20,6 @@ class SettingPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              if (isSmall)
                 Column(
                   children: const [
                     CustomTextHeader(text: 'Theme mode'),

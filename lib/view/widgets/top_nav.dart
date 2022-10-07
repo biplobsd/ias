@@ -52,11 +52,6 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
         ],
       ),
       const Spacer(),
-      if (!isSmallS)
-        const Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: ThemeChangeSwitch(),
-        ),
     ]),
     iconTheme: IconThemeData(
       color: Theme.of(context).hintColor.withOpacity(0.7),
