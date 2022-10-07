@@ -48,6 +48,7 @@ dependencies:
   ndialog: ^4.1.1+1
   flutter_text_viewer: ^0.0.4
   file: ^6.1.4
+  flutter_markdown: ^0.6.12
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

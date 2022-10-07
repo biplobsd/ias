@@ -8,4 +8,5 @@ class AppString {
   static const String githubIssueUrl =
       'https://github.com/biplobsd/preloadwebapptemplate/issues';
   static const String appForwordUrl = 'https://biplobsd.github.io';
+  static const String shortName = 'pwat';
 }

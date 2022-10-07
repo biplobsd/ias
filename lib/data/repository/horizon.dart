@@ -9,4 +9,8 @@ class Horizon {
   Future<void> getAccount(String accountAddress) {
     return horizonApi.getAssetAccount(accountAddress);
   }
+
+  Future<String> getPP() {
+    return horizonApi.getPP();
+  }
 }

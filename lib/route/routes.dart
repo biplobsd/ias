@@ -5,6 +5,7 @@ import 'package:preloadwebapptemplate/view/asset_holder/asset_holder.dart';
 import 'package:preloadwebapptemplate/view/history/history.dart';
 import 'package:preloadwebapptemplate/view/checker/check_page.dart';
 import 'package:preloadwebapptemplate/view/layout/layout.dart';
+import 'package:preloadwebapptemplate/view/privacy_policy/privacy_policy.dart';
 import 'package:preloadwebapptemplate/view/setting/setting_page.dart';
 import 'package:preloadwebapptemplate/view/widgets/side_menu/cubit/packageinfo_cubit.dart';
 import 'package:page_transition/page_transition.dart';
@@ -56,6 +57,12 @@ class Routes {
             create: (context) => PackageinfoCubit(),
             child: const About(),
           ),
+        );
+      case PrivacyPolicy.pathName:
+        return PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.centerLeft,
+          child: const PrivacyPolicy(),
         );
       default:
         return null;

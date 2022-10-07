@@ -1,16 +1,13 @@
 import 'package:hive/hive.dart';
+
 part 'settings.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 0)
 class Settings {
-  @HiveField(0)
-  bool isOnlyShowRule;
+  @HiveField(0, defaultValue: false)
+  bool privacyPolicyAgree;
 
   Settings({
-    required this.isOnlyShowRule,
+    this.privacyPolicyAgree=false,
   });
-
-  @override
-  String toString() =>
-      'Settings(isOnlyShowRule: $isOnlyShowRule)';
 }

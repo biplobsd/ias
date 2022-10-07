@@ -30,4 +30,18 @@ class HorizonApi {
     //   print('Accounts Data: ${response.data['balances']}');
     // }
   }
+
+    Future<String> getPP() async {
+    // ignore: unused_local_variable
+    final Response response;
+    try {
+      response = await client.get<dynamic>(
+        HorizonPath.privacyPolicy,
+      );
+      return response.data as String;
+    } on Exception {
+      // print(e);
+      return '';
+    }
+  }
 }
