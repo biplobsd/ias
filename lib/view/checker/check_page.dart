@@ -30,7 +30,7 @@ class CheckPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double sizedR = !ResponsiveWidget.isSmallScreen(context) ? 200 : 100;
-    double sizedRPadding = !ResponsiveWidget.isSmallScreen(context) ? 25 : 10;
+    double sizedRPadding = !ResponsiveWidget.isSmallScreen(context) ? 0 : 10;
     bool isSmallScreen = ResponsiveWidget.isSmallScreen(context);
     var controlWidget = Row(
       mainAxisSize: MainAxisSize.min,
@@ -40,17 +40,23 @@ class CheckPageScreen extends StatelessWidget {
       ],
     );
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, top: sizedRPadding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              const CustomTextHeader(text: 'Upload image into pixels'),
-              if (!isSmallScreen) controlWidget
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomTextHeader(text: 'Upload image into pixels'),
+                  if (!isSmallScreen) controlWidget
+                ],
+              ),
+              if (isSmallScreen) controlWidget,
             ],
           ),
-          if (isSmallScreen) controlWidget,
-        ],
+        ),
       ),
     );
   }
