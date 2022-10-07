@@ -1,6 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:image/image.dart' as crop;
 
 import '../../../data/model/m_bytes.dart';
@@ -27,29 +27,6 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     runningLock = false;
   }
 
-  void _emitNremove({required Emitter<AnimImageState> emit}) async {
-    if (anim.isNotEmpty) {
-      currentImage = anim.removeAt(0);
-      var imgBytes = crop.encodePng(currentImage!) as Uint8List;
-      pixelBytes.add(imgBytes);
-      emit(
-        AnimImageSplitting(
-          imageBytes: imgBytes,
-          id: count,
-        ),
-      );
-      count++;
-    } else {
-      runningLock = false;
-      emit(
-        AnimImageSplittingComplated(
-          pixelBytes: pixelBytes,
-          mBytes: mBytes!,
-        ),
-      );
-    }
-  }
-
   AnimImageBloc() : super(AnimImageInitial()) {
     on<AnimImageStartEvent>((event, emit) async {
       _reset();
@@ -73,10 +50,29 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       );
     });
 
-    on<AnimImageResumeEvent>((event, emit) {
-      _emitNremove(
-        emit: emit,
-      );
+    on<AnimImageResumeEvent>((event, emit) async {
+      if (anim.isNotEmpty) {
+        currentImage = anim.removeAt(0);
+        var imgBytes = await compute<crop.Image, Uint8List>(
+          encodeImage,
+          currentImage!,
+        );
+        pixelBytes.add(imgBytes);
+        emit(
+          AnimImageSplitting(
+            imageBytes: imgBytes,
+            id: count++,
+          ),
+        );
+      } else {
+        runningLock = false;
+        emit(
+          AnimImageSplittingComplated(
+            pixelBytes: pixelBytes,
+            mBytes: mBytes!,
+          ),
+        );
+      }
     });
 
     on<AnimImageResetEvent>((event, emit) {
@@ -84,6 +80,10 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       emit(AnimImageInitial());
     });
   }
+}
+
+Uint8List encodeImage(crop.Image currentImage) {
+  return crop.encodePng(currentImage) as Uint8List;
 }
 
 class DecodeImageModel {

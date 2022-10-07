@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +48,7 @@ class CheckerPage extends StatelessWidget {
           listener: (context, state) async {
             if (state is AnimImageFrameSizeUpdate ||
                 state is AnimImageSplitting) {
-              await Future.delayed(const Duration());
+              // await Future.delayed(const Duration(milliseconds: 500));
               animImgBloc.add(AnimImageResumeEvent());
               imgAdjBloc.running = true;
             } else if (state is AnimImageSplittingComplated) {
