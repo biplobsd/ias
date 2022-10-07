@@ -18,8 +18,8 @@ import 'cubit/reset_cp_cubit.dart';
 class CheckerPage extends StatelessWidget {
   const CheckerPage({Key? key}) : super(key: key);
 
-  static const String pathName = '/checker';
-  static const String pageName = 'Checker';
+  static const String pathName = '/home';
+  static const String pageName = 'Home';
 
   @override
   Widget build(BuildContext context) {

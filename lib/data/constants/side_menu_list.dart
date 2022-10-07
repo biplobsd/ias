@@ -10,7 +10,7 @@ import '../model/menu_data.dart';
 final List<MenuData> sideMenuList = [
   MenuData(
     name: CheckerPage.pageName,
-    icon: Icons.check,
+    icon: Icons.horizontal_split,
     path: CheckerPage.pathName,
   ),
   MenuData(
