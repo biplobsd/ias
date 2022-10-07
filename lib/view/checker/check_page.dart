@@ -270,7 +270,7 @@ class CheckPageScreen extends StatelessWidget {
                           TextButton.icon(
                             onPressed: () {},
                             icon: const Icon(Icons.gif_box),
-                            label: const Text('image frame show wlll here'),
+                            label: const Text('image frame will show here'),
                           ),
                         ],
                       );

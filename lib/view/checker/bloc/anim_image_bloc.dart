@@ -104,15 +104,6 @@ class DecodeImgOut {
 
 DecodeImgOut decodeImage(DecodeImageModel dIM) {
   List<crop.Image>? decodeAnim;
-  switch (dIM.extension) {
-    case 'gif':
-      decodeAnim = crop.decodeGifAnimation(dIM.bytes)!.toList();
-      break;
-    case 'apng':
-      decodeAnim = crop.decodePngAnimation(dIM.bytes)!.toList();
-      break;
-    default:
-      decodeAnim = null;
-  }
+  decodeAnim = crop.decodeAnimation(dIM.bytes)!.toList();
   return DecodeImgOut(list: decodeAnim);
 }

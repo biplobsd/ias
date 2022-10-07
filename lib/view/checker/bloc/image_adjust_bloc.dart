@@ -38,6 +38,10 @@ class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
       allowedExtensions: [
         'gif',
         'apng',
+        'png',
+        'webp',
+        'awebp',
+        'tiff',
       ],
       dialogTitle: 'Seleted only image animated file',
     );
