@@ -1,10 +1,7 @@
-import 'dart:io' show Platform;
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ndialog/ndialog.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../constants/string.dart';
@@ -21,7 +18,6 @@ import 'checker/bloc/image_adjust_bloc.dart';
 import 'checker/cubit/reset_cp_cubit.dart';
 import 'layout/layout.dart';
 import 'privacy_policy/cubit/get_privacy_policy_cubit.dart';
-import 'privacy_policy/privacy_policy.dart';
 import 'setting/cubit/setting_config_cubit.dart';
 import 'widgets/side_menu/cubit/packageinfo_cubit.dart';
 
@@ -74,46 +70,6 @@ class MyApp extends StatelessWidget {
             listener: (context, state) {
               if (state is SettingConfigUpdate) {
                 Helper.customToast(context, state.msg, ToastMode.success);
-              }
-            },
-          ),
-          BlocListener<SettingConfigCubit, SettingConfigState>(
-            listener: (context, state) async {
-              if (state is SettingConfigLoaded &&
-                  !settingConfCubit.localSettings.privacyPolicyAgree) {
-                var topContext =
-                    context.read<TopContextCubit>().topContextBackup;
-
-                await NDialog(
-                  title: const Text('Statement'),
-                  content: const SizedBox(
-                    height: 500,
-                    width: 1080,
-                    child: PrivacyPolicy(),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: Platform.isAndroid
-                          ? () {
-                              SystemNavigator.pop();
-                            }
-                          : null,
-                      child: const Text('Exit'),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        await settingConfCubit
-                            .changePrivacyPolicyAgree()
-                            .whenComplete(() => Navigator.pop(topContext));
-                      },
-                      child: const Text('Agree'),
-                    )
-                  ],
-                ).show(
-                  topContext,
-                  transitionType: DialogTransitionType.Bubble,
-                  dismissable: false,
-                );
               }
             },
           ),

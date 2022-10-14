@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/model/m_bytes.dart';
 
@@ -66,12 +67,14 @@ class ImageAdjustBloc extends Bloc<ImageAdjustEvent, ImageAdjustState> {
       }
       String extension = single.extension.toString();
       if (importJsonRaw != null) {
+        var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
         emit(
           ImageAdjustImported(
             mBytes: MBytes(
               bytes: importJsonRaw,
               extension: extension,
               path: path,
+              dateTimeNow: dateTimeNow,
             ),
           ),
         );

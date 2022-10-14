@@ -53,9 +53,9 @@ class DownloadCropImageBloc
     on<DownloadCropImageSaveSingleEvent>((event, emit) async {
       emit(DownloadCropImageZiping());
       await Future.delayed(const Duration(milliseconds: 10));
-      var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
+
       String outFilename =
-          '${event.id}_${path.basename(event.mBytes.path).substring(0, event.mBytes.extension.length)}_$dateTimeNow.png';
+          '${event.id}_${path.basename(event.mBytes.path).substring(0, event.mBytes.extension.length)}_${event.mBytes.dateTimeNow}.png';
       var m = await _outputPath(outFilename, emit);
       if (m == null) {
         return;
@@ -81,9 +81,9 @@ class DownloadCropImageBloc
       await Future.delayed(const Duration(milliseconds: 10));
       final List<Uint8List> pixels;
       pixels = event.pixels;
-      var dateTimeNow = DateFormat('hmsdMyy').format(DateTime.now());
+
       String outFilename =
-          '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_$dateTimeNow.zip';
+          '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_${event.mainImage.dateTimeNow}.zip';
       var m = await _outputPath(outFilename, emit);
       if (m == null) {
         return;
