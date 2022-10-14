@@ -33,13 +33,19 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       emit(AnimImageDecodeing());
       mBytes = event.mBytes;
       runningLock = true;
-      var animRaw = await compute<DecodeImageModel, DecodeImgOut>(
-        decodeImage,
-        DecodeImageModel(
-          bytes: event.mBytes.bytes,
-          extension: mBytes!.extension,
-        ),
-      );
+      DecodeImgOut animRaw;
+      try {
+        animRaw = await compute<DecodeImageModel, DecodeImgOut>(
+          decodeImage,
+          DecodeImageModel(
+            bytes: event.mBytes.bytes,
+            extension: mBytes!.extension,
+          ),
+        );
+      } catch (e) {
+        emit(AnimImageError());
+        return;
+      }
       anim = animRaw.list!;
 
       frameSize = anim.length;
@@ -53,10 +59,16 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     on<AnimImageResumeEvent>((event, emit) async {
       if (anim.isNotEmpty) {
         currentImage = anim.removeAt(0);
-        var imgBytes = await compute<crop.Image, Uint8List>(
-          encodeImage,
-          currentImage!,
-        );
+        Uint8List imgBytes;
+        try {
+          imgBytes = await compute<crop.Image, Uint8List>(
+            encodeImage,
+            currentImage!,
+          );
+        } catch (e) {
+          emit(AnimImageError());
+          return;
+        }
         pixelBytes.add(imgBytes);
         emit(
           AnimImageSplitting(

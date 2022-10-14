@@ -59,6 +59,13 @@ class CheckerPage extends StatelessWidget {
                 ToastMode.success,
               );
             } else if (state is! AnimImageDecodeing) {
+              if (state is AnimImageError) {
+                Helper.customToast(
+                  context,
+                  "Error while splitting image.",
+                  ToastMode.error,
+                );
+              }
               imgAdjBloc.running = false;
             }
           },
@@ -67,9 +74,7 @@ class CheckerPage extends StatelessWidget {
           listener: (context, state) async {
             if (state is DownloadCropImageDone) {
               if (state.share) {
-                await Share.shareXFiles(
-                  [XFile(state.fileName)]
-                );
+                await Share.shareXFiles([XFile(state.fileName)]);
               } else {
                 if (kIsWeb) {
                   Helper.customToast(
@@ -86,25 +91,25 @@ class CheckerPage extends StatelessWidget {
                         child: const Text('Close'),
                       ),
                       if (!kIsWeb)
-                      TextButton(
-                        onPressed: () async {
-                          var rawDir = await Helper.getDataDirectory();
-                          if (rawDir == null) {
-                            // ignore: use_build_context_synchronously
-                            Helper.customToast(
-                                topContext,
-                                'Error: while opening data directory',
-                                ToastMode.error);
-                            return;
-                          }
-                          await launchUrl(
-                            Uri.directory(
-                              rawDir,
-                            ),
-                          );
-                        },
-                        child: const Text('Open folder'),
-                      ),
+                        TextButton(
+                          onPressed: () async {
+                            var rawDir = await Helper.getDataDirectory();
+                            if (rawDir == null) {
+                              // ignore: use_build_context_synchronously
+                              Helper.customToast(
+                                  topContext,
+                                  'Error: while opening data directory',
+                                  ToastMode.error);
+                              return;
+                            }
+                            await launchUrl(
+                              Uri.directory(
+                                rawDir,
+                              ),
+                            );
+                          },
+                          child: const Text('Open folder'),
+                        ),
                       TextButton(
                         onPressed: () async {
                           await Share.shareXFiles(
