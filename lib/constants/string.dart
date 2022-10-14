@@ -11,7 +11,7 @@ class AppString {
   
   static const SupportedPlatformsUrl sPU = SupportedPlatformsUrl(
     android: 'https://play.google.com/store/apps/details?id=com.speedout.ias',
-    web: 'https://ias.web.app',
+    web: 'https://image-animated-splitter.web.app',
     windows: 'https://www.microsoft.com/store/productId/9PMSK3V7SJLC',
   );
 }

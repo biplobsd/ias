@@ -52,7 +52,9 @@ class CheckerPage extends StatelessWidget {
           listener: (context, state) async {
             if (state is AnimImageFrameSizeUpdate ||
                 state is AnimImageSplitting) {
-              // await Future.delayed(const Duration(milliseconds: 500));
+              if (kIsWeb) {
+                await Future.delayed(const Duration(milliseconds: 500));
+              }
               animImgBloc.add(AnimImageResumeEvent());
               imgAdjBloc.running = true;
             } else if (state is AnimImageSplittingComplated) {
@@ -252,16 +254,15 @@ class CheckPageScreen extends StatelessWidget {
                               Uint8List? imageBytes;
                               return AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 300),
-                                child: BlocBuilder<AnimImageBloc,
-                                    AnimImageState>(
+                                child:
+                                    BlocBuilder<AnimImageBloc, AnimImageState>(
                                   key: UniqueKey(),
                                   buildWhen: (previous, current) =>
                                       current is AnimImageSplitting &&
                                       current.id == index,
                                   builder: (context, state) {
                                     try {
-                                      imageBytes =
-                                          animImageB.pixelBytes[index];
+                                      imageBytes = animImageB.pixelBytes[index];
                                       // ignore: empty_catches
                                     } catch (e) {}
 
@@ -298,8 +299,8 @@ class CheckPageScreen extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   left: 8, top: 5),
                                               child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                   horizontal: 8,
                                                   vertical: 3,
                                                 ),
@@ -338,12 +339,10 @@ class CheckPageScreen extends StatelessWidget {
                                                           color: Theme.of(
                                                                   context)
                                                               .primaryColor
-                                                              .withOpacity(
-                                                                  0.4),
+                                                              .withOpacity(0.4),
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(
-                                                                      8)),
+                                                                  .circular(8)),
                                                       child: Row(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -357,10 +356,13 @@ class CheckPageScreen extends StatelessWidget {
                                                                         downloadImgB
                                                                             .add(
                                                                           DownloadCropImageSaveSingleEvent(
-                                                                            share: true,
+                                                                            share:
+                                                                                true,
                                                                             id: index,
-                                                                            imageBytes: imageBytes!,
-                                                                            mBytes: animImageB.mBytes!,
+                                                                            imageBytes:
+                                                                                imageBytes!,
+                                                                            mBytes:
+                                                                                animImageB.mBytes!,
                                                                           ),
                                                                         );
                                                                       }
@@ -382,8 +384,10 @@ class CheckPageScreen extends StatelessWidget {
                                                                             .add(
                                                                           DownloadCropImageSaveSingleEvent(
                                                                             id: index,
-                                                                            imageBytes: imageBytes!,
-                                                                            mBytes: animImageB.mBytes!,
+                                                                            imageBytes:
+                                                                                imageBytes!,
+                                                                            mBytes:
+                                                                                animImageB.mBytes!,
                                                                           ),
                                                                         );
                                                                       }
@@ -415,8 +419,7 @@ class CheckPageScreen extends StatelessWidget {
                               TextButton.icon(
                                 onPressed: () {},
                                 icon: const Icon(Icons.gif_box),
-                                label:
-                                    const Text('Image frame will show here'),
+                                label: const Text('Image frame will show here'),
                               ),
                             ],
                           );
@@ -477,10 +480,15 @@ class UploadWidget extends StatelessWidget {
             ? SizedBox(
                 key: UniqueKey(),
                 height: 20,
-                width: 20,
-                child: const CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                ))
+                width: kIsWeb ? null : 20,
+                child: kIsWeb
+                    ? Text(
+                        'Please wait',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    : const CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                      ))
             : Tooltip(
                 key: UniqueKey(),
                 message: text,
