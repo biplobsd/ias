@@ -1,5 +1,5 @@
 name: ias
-description: A new Flutter project.
+description: Image Animated Splitter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -82,16 +82,47 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner:
   hive_generator: ^1.1.3
-  flutter_launcher_icons: ^0.10.0
-  rename_app: ^1.1.0
+  icons_launcher : "^2.0.3"
+  flutter_native_splash: ^2.2.10+1
+  msix: ^3.6.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-flutter_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/logo.png"
+## flutter pub run icons_launcher:create
+icons_launcher:
+  image_path: 'assets/logo.png'
+  platforms:
+    android:
+      enable: false
+    web:
+      enable: false
+    windows:
+      enable: true  
+## flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/logo.png
+  color_dark: "#121212"
+  image_dark: assets/logo.png
+
+  android_12:
+    image: assets/logo.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/logo.png
+    icon_background_color_dark: "#121212"
+
+  web: false
+## flutter pub run msix:create --store
+msix_config:
+  display_name: Image Animated Splitter
+  publisher_display_name: SpeedOut ltd
+  identity_name: 27994SpeedOutltd.ImageAnimatedSplitter
+  publisher: CN=40D4A7BE-993A-4A6A-9E9E-27DF74A60DA0
+  languages: en-us
+  msix_version: 1.0.0.0
+  logo_path: assets\logo.png
+  capabilities: internetClient
 
 # The following section is specific to Flutter packages.
 flutter:
