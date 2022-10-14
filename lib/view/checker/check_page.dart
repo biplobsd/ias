@@ -147,7 +147,7 @@ class CheckPageScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const CustomTextHeader(text: 'Upload image into pixels'),
+                const CustomTextHeader(text: 'Add image'),
                 if (!isSmallScreen) controlWidget
               ],
             ),
@@ -331,7 +331,7 @@ class CheckPageScreen extends StatelessWidget {
                           TextButton.icon(
                             onPressed: () {},
                             icon: const Icon(Icons.gif_box),
-                            label: const Text('image frame will show here'),
+                            label: const Text('image will show here'),
                           ),
                         ],
                       );
@@ -366,7 +366,7 @@ class UploadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isSmallScreen = ResponsiveWidget.isSmallScreen(context);
-    var text = 'Import';
+    var text = 'Add';
     return ValueListenableBuilder<bool>(
       valueListenable: context.read<ImageAdjustBloc>().isRunning,
       builder: (context, value, child) => AnimatedSwitcher(
@@ -417,11 +417,8 @@ class DownloadWidget extends StatelessWidget {
                 builder: (context, state) {
                   Widget widget;
                   var icon = const Icon(Icons.download_rounded);
-                  var text = state is DownloadCropImageZiping
-                      ? 'Ziping ...'
-                      : Platform.isAndroid
-                          ? 'Save into Internal storage'
-                          : 'Download';
+                  var text =
+                      state is DownloadCropImageZiping ? 'Ziping ...' : 'Save';
 
                   if (state is! DownloadCropImageZiping) {
                     widget = Tooltip(
