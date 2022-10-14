@@ -157,6 +157,7 @@ class CheckPageScreen extends StatelessWidget {
         DownloadWidget(),
       ],
     );
+    var textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -180,6 +181,47 @@ class CheckPageScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: controlWidget,
               ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<AnimImageBloc, AnimImageState>(
+                  buildWhen: (previous, current) =>
+                      current is AnimImageFrameSizeUpdate ||
+                      current is AnimImageInitial,
+                  builder: (context, state) {
+                    if (state is AnimImageFrameSizeUpdate) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: Text(
+                          'Total frame : ',
+                          key: UniqueKey(),
+                          style: textTheme.bodySmall,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                BlocBuilder<AnimImageBloc, AnimImageState>(
+                  buildWhen: (previous, current) =>
+                      current is AnimImageSplitting ||
+                      current is AnimImageInitial,
+                  builder: (context, state) {
+                    if (state is AnimImageSplitting) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: Text(
+                          '${animImageB.pixelBytes.length}',
+                          key: UniqueKey(),
+                          style: textTheme.bodySmall,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ],
+            ),
             Expanded(
               child: Material(
                 color: Colors.transparent,
@@ -355,7 +397,7 @@ class CheckPageScreen extends StatelessWidget {
                           TextButton.icon(
                             onPressed: () {},
                             icon: const Icon(Icons.gif_box),
-                            label: const Text('image will show here'),
+                            label: const Text('Image frame will show here'),
                           ),
                         ],
                       );
