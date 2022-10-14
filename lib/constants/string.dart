@@ -8,5 +8,21 @@ class AppString {
   static const String githubIssueUrl = 'https://github.com/biplobsd/speedout-privacy/issues';
   static const String appForwordUrl = 'https://biplobsd.github.io';
   static const String shortName = 'ias';
-  static const String webAppUrl = 'https://ias.web.app';
+  
+  static const SupportedPlatformsUrl sPU = SupportedPlatformsUrl(
+    android: 'https://play.google.com/store/apps/details?id=com.speedout.ias',
+    web: 'https://ias.web.app',
+    windows: 'https://www.microsoft.com/store/productId/9NXP42BX8X7M',
+  );
+}
+
+class SupportedPlatformsUrl {
+  final String android;
+  final String windows;
+  final String web;
+  const SupportedPlatformsUrl({
+    required this.android,
+    required this.windows,
+    required this.web,
+  });
 }

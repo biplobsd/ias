@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum ToastMode {
   success,
@@ -11,6 +12,20 @@ enum ToastMode {
 }
 
 class Helper {
+  static Future<void> launchLink({
+    required String url,
+    required BuildContext context,
+  }) async {
+    final Uri sUri = Uri.parse(url);
+    if (!await launchUrl(
+      sUri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      // ignore: use_build_context_synchronously
+      customToast(context, 'Could not launch $sUri', ToastMode.error);
+    }
+  }
+  
   static String collapsId({required String id, int show = 2}) {
     if (id.isEmpty) {
       return '';

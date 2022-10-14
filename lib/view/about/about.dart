@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +20,8 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double sizedRPadding = !ResponsiveWidget.isSmallScreen(context) ? 25 : 10;
+        var prC =
+        Theme.of(context).buttonTheme.colorScheme!.primary.withOpacity(0.9);
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(
@@ -87,6 +92,60 @@ class About extends StatelessWidget {
               const Divider(),
               const SizedBox(
                 height: 10,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Platform supported",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    color: !kIsWeb && Platform.isAndroid ? prC : null,
+                    tooltip: 'Android',
+                    onPressed: () async {
+                      await Helper.launchLink(
+                        url: AppString.sPU.android,
+                        context: context,
+                      );
+                    },
+                    icon: const Icon(Icons.android),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  IconButton(
+                    color: !kIsWeb && Platform.isWindows ? prC : null,
+                    tooltip: 'Windows',
+                    onPressed: () async {
+                      await Helper.launchLink(
+                        url: AppString.sPU.windows,
+                        context: context,
+                      );
+                    },
+                    icon: const Icon(Icons.window),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  IconButton(
+                    color: kIsWeb ? prC : null,
+                    tooltip: 'Progressive Web App',
+                    onPressed: () async {
+                      await Helper.launchLink(
+                        url: AppString.sPU.web,
+                        context: context,
+                      );
+                    },
+                    icon: const Icon(Icons.web),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Align(
                 alignment: Alignment.centerLeft,

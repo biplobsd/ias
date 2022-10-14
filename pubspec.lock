@@ -119,7 +119,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.0"
   build_runner_core:
     dependency: transitive
     description:
@@ -189,7 +189,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
   cross_file:
     dependency: "direct main"
     description:
@@ -223,7 +223,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "010818f69d84930380766d9e278fbf27a5366d23"
+      resolved-ref: bfd43deb2a3911ac6977ae60e7fbe57ebed5bfbc
       url: "https://github.com/biplobsd/dart_download.git"
     source: git
     version: "0.0.1+1"
@@ -247,7 +247,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.0+1"
+    version: "5.2.1"
   fixnum:
     dependency: transitive
     description:
@@ -439,7 +439,7 @@ packages:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.1.0"
   markdown:
     dependency: transitive
     description:
@@ -649,7 +649,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.3"
+    version: "6.0.4"
   pub_semver:
     dependency: transitive
     description:
@@ -684,7 +684,7 @@ packages:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_macos:
     dependency: transitive
     description:
@@ -796,7 +796,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   source_helper:
     dependency: transitive
     description:

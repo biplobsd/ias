@@ -121,7 +121,7 @@ class DownloadCropImageBloc
 
       Map<String, dynamic> fileinfo = Fileinfo(
         appName: event.packageInfo.appName,
-        webAppUrl: AppString.webAppUrl,
+        webAppUrl: AppString.sPU.web,
         appVersion: event.packageInfo.version,
         pixelsName: pixelsName,
         mainImageName: mainImageName,
@@ -145,7 +145,7 @@ class DownloadCropImageBloc
       );
 
       try {
-        download(bytesRaw.bytes!, outFilename);
+        await download(bytesRaw.bytes!, outFilename);
       } on Exception catch (e) {
         emit(DownloadCropImageError(
           errorMsg: '$e',
