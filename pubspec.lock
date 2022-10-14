@@ -43,6 +43,41 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  bitsdojo_window:
+    dependency: "direct main"
+    description:
+      name: bitsdojo_window
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
+  bitsdojo_window_linux:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
+  bitsdojo_window_macos:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
+  bitsdojo_window_platform_interface:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
+  bitsdojo_window_windows:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   bloc:
     dependency: "direct main"
     description:
@@ -672,11 +707,13 @@ packages:
     source: hosted
     version: "3.1.0"
   share_plus_windows:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: share_plus_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/share_plus/share_plus_windows"
+      ref: "7b6ac7ebc33e3bfd023030e61268cff0fa03d913"
+      resolved-ref: "7b6ac7ebc33e3bfd023030e61268cff0fa03d913"
+      url: "https://github.com/fluttercommunity/plus_plugins.git"
+    source: git
     version: "3.0.1"
   shared_preferences:
     dependency: transitive
@@ -901,7 +938,7 @@ packages:
     source: hosted
     version: "2.2.0"
   win32:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: win32
       url: "https://pub.dartlang.org"

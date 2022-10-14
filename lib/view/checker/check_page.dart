@@ -68,9 +68,8 @@ class CheckerPage extends StatelessWidget {
           listener: (context, state) async {
             if (state is DownloadCropImageDone) {
               if (state.share) {
-                await Share.shareFiles(
-                  [state.fileName],
-                  text: state.fileName,
+                await Share.shareXFiles(
+                  [XFile(state.fileName)]
                 );
               } else {
                 if (kIsWeb) {

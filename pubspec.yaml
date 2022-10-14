@@ -62,6 +62,15 @@ dependencies:
     git: https://github.com/biplobsd/dart_download.git
   share_plus: ^4.5.3
   cross_file: ^0.3.3+2
+  bitsdojo_window: ^0.1.5
+
+dependency_overrides:
+  share_plus_windows:
+    git: 
+      url: https://github.com/fluttercommunity/plus_plugins.git
+      path: packages/share_plus/share_plus_windows
+      ref: 7b6ac7ebc33e3bfd023030e61268cff0fa03d913
+  win32: ^3.0.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
