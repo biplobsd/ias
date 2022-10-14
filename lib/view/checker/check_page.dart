@@ -7,6 +7,7 @@ import 'package:ias/utility/function/helper.dart';
 import 'package:ias/view/checker/bloc/anim_image_bloc.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/responsiveness.dart';
 import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
@@ -83,6 +84,26 @@ class CheckerPage extends StatelessWidget {
                           Navigator.pop(topContext);
                         },
                         child: const Text('Close'),
+                      ),
+                      if (!kIsWeb)
+                      TextButton(
+                        onPressed: () async {
+                          var rawDir = await Helper.getDataDirectory();
+                          if (rawDir == null) {
+                            // ignore: use_build_context_synchronously
+                            Helper.customToast(
+                                topContext,
+                                'Error: while opening data directory',
+                                ToastMode.error);
+                            return;
+                          }
+                          await launchUrl(
+                            Uri.directory(
+                              rawDir,
+                            ),
+                          );
+                        },
+                        child: const Text('Open folder'),
                       ),
                       TextButton(
                         onPressed: () async {

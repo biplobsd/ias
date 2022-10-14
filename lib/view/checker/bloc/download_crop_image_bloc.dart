@@ -15,39 +15,13 @@ import 'package:path_provider/path_provider.dart';
 import '../../../constants/string.dart';
 import '../../../data/model/fileinfo.dart';
 import '../../../data/model/m_bytes.dart';
+import '../../../utility/function/helper.dart';
 
 part 'download_crop_image_event.dart';
 part 'download_crop_image_state.dart';
 
 class DownloadCropImageBloc
     extends Bloc<DownloadCropImageEvent, DownloadCropImageState> {
-  Future<String?> _outputPath(
-      String pre, Emitter<DownloadCropImageState> emit) async {
-    String outFilename = pre;
-    if (!kIsWeb) {
-      String? savePath;
-      if (Platform.isAndroid) {
-        String? downloadsDirectoryPath =
-            (await DownloadsPath.downloadsDirectory())?.path;
-        if (downloadsDirectoryPath == null) {
-          emit(DownloadCropImageError(
-              errorMsg: 'Error while getting file save path'));
-          return null;
-        }
-        savePath = downloadsDirectoryPath;
-      } else {
-        savePath = (await getApplicationDocumentsDirectory()).path;
-      }
-
-      String pathDir = path.join(savePath, AppString.shortName);
-      Directory(pathDir).createSync();
-      outFilename = path.join(pathDir, outFilename);
-      if (kDebugMode) {
-        print(outFilename);
-      }
-    }
-    return outFilename;
-  }
 
   DownloadCropImageBloc() : super(DownloadCropImageInitial()) {
     on<DownloadCropImageSaveSingleEvent>((event, emit) async {
@@ -56,11 +30,17 @@ class DownloadCropImageBloc
 
       String outFilename =
           '${event.id}_${path.basename(event.mBytes.path).substring(0, event.mBytes.extension.length)}_${event.mBytes.dateTimeNow}.png';
-      var m = await _outputPath(outFilename, emit);
-      if (m == null) {
-        return;
-      } else {
-        outFilename = m;
+      if (!kIsWeb) {
+        var pathDir = await Helper.getDataDirectory();
+        if(pathDir == null){
+          emit(DownloadCropImageError(
+                errorMsg: 'Error while getting file save path'));
+            return;
+        }
+        outFilename = path.join(pathDir, outFilename);
+        if (kDebugMode) {
+          print(outFilename);
+        }
       }
       try {
         download(event.imageBytes, outFilename);
@@ -84,13 +64,18 @@ class DownloadCropImageBloc
 
       String outFilename =
           '${path.basename(event.mainImage.path).substring(0, event.mainImage.extension.length)}_${event.mainImage.dateTimeNow}.zip';
-      var m = await _outputPath(outFilename, emit);
-      if (m == null) {
-        return;
-      } else {
-        outFilename = m;
+      if (!kIsWeb) {
+        var pathDir = await Helper.getDataDirectory();
+        if(pathDir == null){
+          emit(DownloadCropImageError(
+                errorMsg: 'Error while getting file save path'));
+            return;
+        }
+        outFilename = path.join(pathDir, outFilename);
+        if (kDebugMode) {
+          print(outFilename);
+        }
       }
-
       Archive archive = Archive();
 
       // main file

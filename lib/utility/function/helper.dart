@@ -1,7 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path/path.dart' as path;
+
+import '../../constants/string.dart';
 
 enum ToastMode {
   success,
@@ -12,6 +20,27 @@ enum ToastMode {
 }
 
 class Helper {
+  static Future<String?> getDataDirectory() async {
+    if (!kIsWeb) {
+      String? savePath;
+      if (Platform.isAndroid) {
+        String? downloadsDirectoryPath =
+            (await DownloadsPath.downloadsDirectory())?.path;
+        if (downloadsDirectoryPath == null) {
+          return null;
+        }
+        savePath = downloadsDirectoryPath;
+      } else {
+        savePath = (await getApplicationDocumentsDirectory()).path;
+      }
+
+      String pathDir = path.join(savePath, AppString.shortName, 'data');
+      Directory(pathDir).createSync();
+      return pathDir;
+    }
+    return null;
+  }
+  
   static Future<void> launchLink({
     required String url,
     required BuildContext context,

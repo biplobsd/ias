@@ -6,13 +6,16 @@ class MenuData {
   final String path;
   final bool isActive;
   final bool isHover;
+  final void Function()? isOpen;
 
   MenuData(
       {required this.name,
       this.icon,
       required this.path,
       this.isActive = false,
-      this.isHover = false});
+      this.isHover = false,
+      this.isOpen,
+      });
 
   MenuData copyWith({
     String? name,

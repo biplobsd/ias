@@ -1,13 +1,14 @@
-
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ndialog/ndialog.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../constants/string.dart';
 import '../constants/theme/bloc/theme_bloc.dart';
 import '../constants/theme/theme_manager.dart';
 import '../core/cubit/top_context_cubit.dart';
+import '../data/constants/side_menu_list.dart';
 import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
 import '../route/routes.dart';
@@ -16,6 +17,7 @@ import 'checker/bloc/anim_image_bloc.dart';
 import 'checker/bloc/download_crop_image_bloc.dart';
 import 'checker/bloc/image_adjust_bloc.dart';
 import 'checker/cubit/reset_cp_cubit.dart';
+import 'cubit/save_file_location_cubit.dart';
 import 'layout/layout.dart';
 import 'privacy_policy/cubit/get_privacy_policy_cubit.dart';
 import 'setting/cubit/setting_config_cubit.dart';
@@ -58,6 +60,9 @@ class MyApp extends StatelessWidget {
           create: (context) => imageAdjustBloc,
         ),
         BlocProvider(
+          create: (context) => saveFileLocationCubit,
+        ),
+        BlocProvider(
           create: (context) => ResetCpCubit(
             animImageBloc: animImageBloc,
             imageAdjustBloc: imageAdjustBloc,
@@ -86,9 +91,42 @@ class ApplyMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OverlaySupport.global(
-      child: MainApp(
-        horizon: horizon,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SaveFileLocationCubit, SaveFileLocationState>(
+            listener: (context, state) async {
+          var topContext = context.read<TopContextCubit>().topContextBackup;
+          if (state is SaveFileLocationShowAgain) {
+            await NDialog(
+              title: Row(
+                children: const [
+                  Icon(Icons.info_outline_rounded),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text("Files save location"),
+                ],
+              ),
+              content: Text(state.msg),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(topContext);
+                  },
+                  child: const Text("Okay"),
+                ),
+              ],
+            ).show(
+              topContext,
+              transitionType: DialogTransitionType.Bubble,
+            );
+          }
+        }),
+      ],
+      child: OverlaySupport.global(
+        child: MainApp(
+          horizon: horizon,
+        ),
       ),
     );
   }

@@ -87,7 +87,7 @@ class SideMenuBody extends StatelessWidget {
               children: sideMenuList
                   .map((itemData) => SideMenuItem(
                         itemData: itemData,
-                        onTap: () {
+                        onTap: itemData.isOpen ?? () {
                           var sidemenuonactivecubit =
                               BlocProvider.of<SidemenuonactiveCubit>(context);
                           itemData = itemData.copyWith(isActive: true);
