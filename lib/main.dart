@@ -10,11 +10,12 @@ import 'constants/string.dart';
 import 'core/hive/hive_init.dart';
 import 'view/app.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveInit.fireUp();
-  await MobileAds.instance.initialize();
+  if (!kIsWeb && Platform.isAndroid) {
+    await MobileAds.instance.initialize();
+  }
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(const MyApp());
