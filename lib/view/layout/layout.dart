@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +37,17 @@ class SiteLayoutPageScreen extends StatelessWidget {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
     return Scaffold(
       key: scaffoldKey,
-      appBar: topNavigationBar(context, scaffoldKey),
+      appBar: !kIsWeb && Platform.isAndroid
+          ? AppBar(
+              titleSpacing: 0,
+              leadingWidth: 0,
+              toolbarHeight: 35,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              leading: const SizedBox(),
+              title: topNavigationBar(context, scaffoldKey),
+            )
+          : topNavigationBar(context, scaffoldKey),
       drawer: ResponsiveWidget.isSmallScreen(context)
           ? const Drawer(
               child: SideMenu(),
