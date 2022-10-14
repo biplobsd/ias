@@ -63,6 +63,7 @@ dependencies:
   share_plus: ^4.5.3
   cross_file: ^0.3.3+2
   bitsdojo_window: ^0.1.5
+  google_mobile_ads: ^2.1.0
 
 dependency_overrides:
   share_plus_windows:

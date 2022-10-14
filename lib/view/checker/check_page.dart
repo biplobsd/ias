@@ -4,6 +4,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:ias/core/cubit/top_context_cubit.dart';
 import 'package:ias/utility/function/helper.dart';
 import 'package:ias/view/checker/bloc/anim_image_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:ndialog/ndialog.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../bloc/ads_bloc.dart';
 import '../widgets/responsiveness.dart';
 import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
 import '../widgets/style.dart';
@@ -159,266 +161,300 @@ class CheckPageScreen extends StatelessWidget {
     );
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: sizedRPadding,
-          bottom: 20,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const CustomTextHeader(text: 'Add image'),
-                if (!isSmallScreen) controlWidget
-              ],
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: sizedRPadding,
+              bottom: 25,
             ),
-            if (isSmallScreen)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: controlWidget,
-              ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                BlocBuilder<AnimImageBloc, AnimImageState>(
-                  buildWhen: (previous, current) =>
-                      current is AnimImageFrameSizeUpdate ||
-                      current is AnimImageInitial,
-                  builder: (context, state) {
-                    if (state is AnimImageFrameSizeUpdate) {
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: Text(
-                          'Total frame : ',
-                          key: UniqueKey(),
-                          style: textTheme.bodySmall,
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const CustomTextHeader(text: 'Add image'),
+                    if (!isSmallScreen) controlWidget
+                  ],
                 ),
-                BlocBuilder<AnimImageBloc, AnimImageState>(
-                  buildWhen: (previous, current) =>
-                      current is AnimImageSplitting ||
-                      current is AnimImageInitial,
-                  builder: (context, state) {
-                    if (state is AnimImageSplitting) {
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: Text(
-                          '${animImageB.pixelBytes.length}',
-                          key: UniqueKey(),
-                          style: textTheme.bodySmall,
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Material(
-                color: Colors.transparent,
-                child: BlocBuilder<AnimImageBloc, AnimImageState>(
-                  buildWhen: (previous, current) =>
-                      current is AnimImageFrameSizeUpdate ||
-                      current is AnimImageInitial,
-                  builder: (context, state) {
-                    Widget widget;
-                    if (state is AnimImageFrameSizeUpdate) {
-                      widget = GridView.builder(
-                        key: UniqueKey(),
-                        shrinkWrap: true,
-                        itemCount: state.frameLen,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: isSmallScreen ? 2 : 5,
-                          mainAxisSpacing: 5.0,
-                          crossAxisSpacing: 5.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          Widget? child;
-                          Uint8List? imageBytes;
+                if (isSmallScreen)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: controlWidget,
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BlocBuilder<AnimImageBloc, AnimImageState>(
+                      buildWhen: (previous, current) =>
+                          current is AnimImageFrameSizeUpdate ||
+                          current is AnimImageInitial,
+                      builder: (context, state) {
+                        if (state is AnimImageFrameSizeUpdate) {
                           return AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child: BlocBuilder<AnimImageBloc, AnimImageState>(
+                            duration: const Duration(milliseconds: 500),
+                            child: Text(
+                              'Total frame : ',
                               key: UniqueKey(),
-                              buildWhen: (previous, current) =>
-                                  current is AnimImageSplitting &&
-                                  current.id == index,
-                              builder: (context, state) {
-                                try {
-                                  imageBytes = animImageB.pixelBytes[index];
-                                  // ignore: empty_catches
-                                } catch (e) {}
+                              style: textTheme.bodySmall,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                    BlocBuilder<AnimImageBloc, AnimImageState>(
+                      buildWhen: (previous, current) =>
+                          current is AnimImageSplitting ||
+                          current is AnimImageInitial,
+                      builder: (context, state) {
+                        if (state is AnimImageSplitting) {
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            child: Text(
+                              '${animImageB.pixelBytes.length}',
+                              key: UniqueKey(),
+                              style: textTheme.bodySmall,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: BlocBuilder<AnimImageBloc, AnimImageState>(
+                      buildWhen: (previous, current) =>
+                          current is AnimImageFrameSizeUpdate ||
+                          current is AnimImageInitial,
+                      builder: (context, state) {
+                        Widget widget;
+                        if (state is AnimImageFrameSizeUpdate) {
+                          widget = GridView.builder(
+                            key: UniqueKey(),
+                            shrinkWrap: true,
+                            itemCount: state.frameLen,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: isSmallScreen ? 2 : 5,
+                              mainAxisSpacing: 5.0,
+                              crossAxisSpacing: 5.0,
+                            ),
+                            itemBuilder: (context, index) {
+                              Widget? child;
+                              Uint8List? imageBytes;
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: BlocBuilder<AnimImageBloc,
+                                    AnimImageState>(
+                                  key: UniqueKey(),
+                                  buildWhen: (previous, current) =>
+                                      current is AnimImageSplitting &&
+                                      current.id == index,
+                                  builder: (context, state) {
+                                    try {
+                                      imageBytes =
+                                          animImageB.pixelBytes[index];
+                                      // ignore: empty_catches
+                                    } catch (e) {}
 
-                                if (imageBytes != null) {
-                                  child = Image.memory(
-                                    imageBytes!,
-                                  );
-                                }
-                                return AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 500),
-                                  switchInCurve: Curves.bounceIn,
-                                  switchOutCurve: Curves.bounceInOut,
-                                  transitionBuilder: (child, animation) =>
-                                      ScaleTransition(
-                                    scale: animation,
-                                    child: child,
-                                  ),
-                                  child: Ink(
-                                    key: UniqueKey(),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.4),
+                                    if (imageBytes != null) {
+                                      child = Image.memory(
+                                        imageBytes!,
+                                      );
+                                    }
+                                    return AnimatedSwitcher(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      switchInCurve: Curves.bounceIn,
+                                      switchOutCurve: Curves.bounceInOut,
+                                      transitionBuilder: (child, animation) =>
+                                          ScaleTransition(
+                                        scale: animation,
+                                        child: child,
                                       ),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        if (child != null) child!,
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8, top: 5),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 3,
-                                            ),
-                                            decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .primaryColor
-                                                    .withOpacity(0.4),
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            child: Opacity(
-                                              opacity: 0.9,
-                                              child: Text(
-                                                index.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                              ),
-                                            ),
+                                      child: Ink(
+                                        key: UniqueKey(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.4),
                                           ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                         ),
-                                        Material(
-                                          color: Colors.transparent,
-                                          child: Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: Opacity(
-                                              opacity: 0.9,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 8, bottom: 5),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .primaryColor
-                                                          .withOpacity(0.4),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8)),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      IconButton(
-                                                        splashRadius: 20,
-                                                        onPressed: imageBytes !=
-                                                                null
-                                                            ? () {
-                                                                downloadImgB
-                                                                    .add(
-                                                                  DownloadCropImageSaveSingleEvent(
-                                                                    share: true,
-                                                                    id: index,
-                                                                    imageBytes:
-                                                                        imageBytes!,
-                                                                    mBytes: animImageB
-                                                                        .mBytes!,
-                                                                  ),
-                                                                );
-                                                              }
-                                                            : null,
-                                                        icon: const Icon(
-                                                          Icons.share_rounded,
-                                                        ),
-                                                      ),
-                                                      IconButton(
-                                                        tooltip: 'Save frame',
-                                                        splashRadius: 20,
-                                                        onPressed:
-                                                            imageBytes != null
-                                                                ? () {
-                                                                    downloadImgB
-                                                                        .add(
-                                                                      DownloadCropImageSaveSingleEvent(
-                                                                        id: index,
-                                                                        imageBytes:
-                                                                            imageBytes!,
-                                                                        mBytes:
-                                                                            animImageB.mBytes!,
-                                                                      ),
-                                                                    );
-                                                                  }
-                                                                : null,
-                                                        icon: const Icon(
-                                                            Icons.save),
-                                                      ),
-                                                    ],
+                                        child: Stack(
+                                          children: [
+                                            if (child != null) child!,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8, top: 5),
+                                              child: Container(
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 3,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: Theme.of(context)
+                                                        .primaryColor
+                                                        .withOpacity(0.4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                child: Opacity(
+                                                  opacity: 0.9,
+                                                  child: Text(
+                                                    index.toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                                            Material(
+                                              color: Colors.transparent,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomRight,
+                                                child: Opacity(
+                                                  opacity: 0.9,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8,
+                                                            bottom: 5),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColor
+                                                              .withOpacity(
+                                                                  0.4),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8)),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          IconButton(
+                                                            splashRadius: 20,
+                                                            onPressed:
+                                                                imageBytes !=
+                                                                        null
+                                                                    ? () {
+                                                                        downloadImgB
+                                                                            .add(
+                                                                          DownloadCropImageSaveSingleEvent(
+                                                                            share: true,
+                                                                            id: index,
+                                                                            imageBytes: imageBytes!,
+                                                                            mBytes: animImageB.mBytes!,
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                    : null,
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .share_rounded,
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                            tooltip:
+                                                                'Save frame',
+                                                            splashRadius: 20,
+                                                            onPressed:
+                                                                imageBytes !=
+                                                                        null
+                                                                    ? () {
+                                                                        downloadImgB
+                                                                            .add(
+                                                                          DownloadCropImageSaveSingleEvent(
+                                                                            id: index,
+                                                                            imageBytes: imageBytes!,
+                                                                            mBytes: animImageB.mBytes!,
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                    : null,
+                                                            icon: const Icon(
+                                                                Icons.save),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                           );
-                        },
-                      );
-                    } else {
-                      widget = Column(
-                        key: UniqueKey(),
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.gif_box),
-                            label: const Text('Image frame will show here'),
+                        } else {
+                          widget = Column(
+                            key: UniqueKey(),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton.icon(
+                                onPressed: () {},
+                                icon: const Icon(Icons.gif_box),
+                                label:
+                                    const Text('Image frame will show here'),
+                              ),
+                            ],
+                          );
+                        }
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          reverseDuration: const Duration(milliseconds: 500),
+                          switchInCurve: Curves.bounceIn,
+                          switchOutCurve: Curves.bounceInOut,
+                          transitionBuilder: (child, animation) =>
+                              ScaleTransition(
+                            scale: animation,
+                            child: child,
                           ),
-                        ],
-                      );
-                    }
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      reverseDuration: const Duration(milliseconds: 500),
-                      switchInCurve: Curves.bounceIn,
-                      switchOutCurve: Curves.bounceInOut,
-                      transitionBuilder: (child, animation) => ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      ),
-                      child: widget,
-                    );
-                  },
-                ),
-              ),
-            )
-          ],
-        ),
+                          child: widget,
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          BlocBuilder<AdsBloc, AdsState>(
+            builder: (context, state) {
+              if (state is AdsLoaded) {
+                var ad = context.read<AdsBloc>().myBanners[0];
+                return Container(
+                  alignment: Alignment.center,
+                  width: ad.size.width.toDouble(),
+                  height: ad.size.height.toDouble(),
+                  child: AdWidget(ad: ad),
+                );
+              }
+              return const SizedBox();
+            },
+          )
+        ],
       ),
     );
   }

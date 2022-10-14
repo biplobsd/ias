@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ndialog/ndialog.dart';
@@ -13,6 +16,7 @@ import '../data/provider/horizon_api.dart';
 import '../data/repository/horizon.dart';
 import '../route/routes.dart';
 import '../utility/function/helper.dart';
+import 'bloc/ads_bloc.dart';
 import 'checker/bloc/anim_image_bloc.dart';
 import 'checker/bloc/download_crop_image_bloc.dart';
 import 'checker/bloc/image_adjust_bloc.dart';
@@ -36,6 +40,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => PackageinfoCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AdsBloc(),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => ThemeBloc(),
@@ -141,6 +149,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!kIsWeb && Platform.isAndroid) {
+      context.read<AdsBloc>().add(AdsBanarLoadEvent());
+    }
     return AdaptiveTheme(
       light: ThemeManager.buildTheme(Brightness.light),
       dark: ThemeManager.buildTheme(Brightness.dark),
