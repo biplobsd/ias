@@ -66,6 +66,8 @@ dependencies:
   google_mobile_ads: ^2.1.0
 
 dependency_overrides:
+  image:
+    git: https://github.com/brendan-duncan/image.git
   share_plus_windows:
     git: 
       url: https://github.com/fluttercommunity/plus_plugins.git
