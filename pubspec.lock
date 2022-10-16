@@ -431,10 +431,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "173af0b32919885eef6a2826ca90cd97fca1cece"
+      resolved-ref: e0e6199253a00b5512ae04c9c3d86f11e96fd4e9
       url: "https://github.com/brendan-duncan/image.git"
     source: git
-    version: "3.2.0"
+    version: "3.2.2"
   intl:
     dependency: "direct main"
     description:
