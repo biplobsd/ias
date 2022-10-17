@@ -12,7 +12,6 @@ class AnimImageSplitting extends AnimImageState {
   AnimImageSplitting({
     required this.imageBytes,
     required this.id,
-
   });
 }
 
@@ -36,4 +35,9 @@ class AnimImageFrameSizeUpdate extends AnimImageState {
 
 class AnimImageDecodeing extends AnimImageState {}
 
-class AnimImageError extends AnimImageState {}
+class AnimImageError extends AnimImageState {
+  final String msg;
+  AnimImageError({
+    required this.msg,
+  });
+}

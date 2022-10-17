@@ -184,7 +184,8 @@ class CheckPageScreen extends StatelessWidget {
                           current is AnimImageSplitting ||
                           current is AnimImageInitial,
                       builder: (context, state) {
-                        if (state is AnimImageSplitting || state is AnimImageSplittingComplated) {
+                        if (state is AnimImageSplitting ||
+                            state is AnimImageSplittingComplated) {
                           return AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             child: Text(
@@ -444,18 +445,26 @@ class UploadWidget extends StatelessWidget {
       builder: (context, value, child) => AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: value
-            ? SizedBox(
-                key: UniqueKey(),
-                height: 20,
-                width: kIsWeb ? null : 20,
-                child: kIsWeb
-                    ? Text(
-                        'Please wait',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      )
-                    : const CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                      ))
+            ? Tooltip(
+              message: 'Stop',
+              child: TextButton(
+                  key: UniqueKey(),
+                  onPressed: () {
+                    context.read<AnimImageBloc>().stopRunning = true;
+                  },
+                  child: SizedBox(
+                      height: 20,
+                      width: kIsWeb ? null : 20,
+                      child: kIsWeb
+                          ? Text(
+                              'Please wait',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            )
+                          : const CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                            )),
+                ),
+            )
             : Tooltip(
                 key: UniqueKey(),
                 message: text,

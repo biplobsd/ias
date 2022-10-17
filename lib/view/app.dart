@@ -158,7 +158,7 @@ class ApplyMore extends StatelessWidget {
               if (state is AnimImageError) {
                 Helper.customToast(
                   context,
-                  "Error while splitting image.",
+                  state.msg,
                   ToastMode.error,
                 );
               }

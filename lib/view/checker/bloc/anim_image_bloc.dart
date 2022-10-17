@@ -13,6 +13,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
   late List<crop.Image> anim;
   late List<Uint8List> pixelBytes;
   late bool runningLock;
+  bool stopRunning = false;
   MBytes? mBytes;
   int? frameSize;
   crop.Image? currentImage;
@@ -27,6 +28,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     frameSize = null;
     currentImage = null;
     runningLock = false;
+    stopRunning = false;
   }
 
   AnimImageBloc({required this.frameUpdateCubit}) : super(AnimImageInitial()) {
@@ -45,7 +47,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
           ),
         );
       } catch (e) {
-        emit(AnimImageError());
+        emit(AnimImageError(msg: e.toString()));
         return;
       }
       anim = animRaw.list!;
@@ -60,6 +62,10 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     });
 
     on<AnimImageResumeEvent>((event, emit) async {
+      if (stopRunning) {
+        emit(AnimImageError(msg: 'Stoppted'));
+        return;
+      }
       if (anim.isNotEmpty) {
         currentImage = anim.removeAt(0);
         Uint8List imgBytes;
@@ -69,7 +75,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
             currentImage!,
           );
         } catch (e) {
-          emit(AnimImageError());
+          emit(AnimImageError(msg: e.toString()));
           return;
         }
         pixelBytes.add(imgBytes);
