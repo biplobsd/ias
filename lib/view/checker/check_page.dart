@@ -315,31 +315,29 @@ class CheckPageScreen extends StatelessWidget {
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: [
-                                                          IconButton(
-                                                            splashRadius: 20,
-                                                            onPressed:
-                                                                imageBytes !=
-                                                                        null
-                                                                    ? () {
-                                                                        downloadImgB
-                                                                            .add(
-                                                                          DownloadCropImageSaveSingleEvent(
-                                                                            share:
-                                                                                true,
-                                                                            id: index,
-                                                                            imageBytes:
-                                                                                imageBytes!,
-                                                                            mBytes:
-                                                                                animImageB.mBytes!,
-                                                                          ),
-                                                                        );
-                                                                      }
-                                                                    : null,
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .share_rounded,
+                                                          if (!kIsWeb)
+                                                            IconButton(
+                                                              splashRadius: 20,
+                                                              onPressed:
+                                                                  imageBytes !=
+                                                                          null
+                                                                      ? () {
+                                                                          downloadImgB
+                                                                              .add(
+                                                                            DownloadCropImageSaveSingleEvent(
+                                                                              share: true,
+                                                                              id: index,
+                                                                              imageBytes: imageBytes!,
+                                                                              mBytes: animImageB.mBytes!,
+                                                                            ),
+                                                                          );
+                                                                        }
+                                                                      : null,
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .share_rounded,
+                                                              ),
                                                             ),
-                                                          ),
                                                           IconButton(
                                                             tooltip:
                                                                 'Save frame',
@@ -446,8 +444,8 @@ class UploadWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         child: value
             ? Tooltip(
-              message: 'Stop',
-              child: TextButton(
+                message: 'Stop',
+                child: TextButton(
                   key: UniqueKey(),
                   onPressed: () {
                     context.read<AnimImageBloc>().stopRunning = true;
@@ -464,7 +462,7 @@ class UploadWidget extends StatelessWidget {
                               strokeWidth: 2.5,
                             )),
                 ),
-            )
+              )
             : Tooltip(
                 key: UniqueKey(),
                 message: text,
