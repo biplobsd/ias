@@ -100,7 +100,7 @@ icons_launcher:
     web:
       enable: true
     windows:
-      enable: false  
+      enable: true  
 ## flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#ffffff"
