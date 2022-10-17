@@ -122,7 +122,7 @@ msix_config:
   identity_name: 27994SpeedOutltd.ImageAnimatedSplitter
   publisher: CN=40D4A7BE-993A-4A6A-9E9E-27DF74A60DA0
   languages: en-us
-  msix_version: 1.0.0.0
+  msix_version: 1.1.0.0
   logo_path: assets\logo.png
   capabilities: internetClient
 
