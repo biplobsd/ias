@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ias/view/checker/check_page.dart';
 
 import '../../../../constants/style.dart';
 import '../../../../data/model/menu_data.dart';
 import '../../custom_text.dart';
 import '../cubit/sidemenuonactive_cubit.dart';
 import '../cubit/sidemenuonhover_cubit.dart';
+import '../widgets/progress_indicator_custom.dart';
 
 class VerticalMenuItem extends StatelessWidget {
   final MenuData itemData;
@@ -61,13 +63,21 @@ class VerticalMenuItem extends StatelessWidget {
                             ),
                           ),
                           Flexible(
-                            child: CustomText(
-                              size: isThatWidgetActive ? 18 : 16,
-                              text: itemData.name,
-                              color:
-                                  Theme.of(context).hintColor.withOpacity(.7),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CustomText(
+                                  size: isThatWidgetActive ? 18 : 16,
+                                  text: itemData.name,
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(.7),
+                                ),
+                                if (itemData.name == CheckerPage.pageName)
+                                  const ProgressIndicatorCustom(),
+                              ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

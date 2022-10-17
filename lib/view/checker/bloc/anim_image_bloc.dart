@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as crop;
 
 import '../../../data/model/m_bytes.dart';
+import '../cubit/frame_update_cubit.dart';
 
 part 'anim_image_event.dart';
 part 'anim_image_state.dart';
@@ -16,6 +17,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
   int? frameSize;
   crop.Image? currentImage;
   late int count;
+  FrameUpdateCubit frameUpdateCubit;
 
   void _reset() {
     count = 0;
@@ -27,7 +29,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
     runningLock = false;
   }
 
-  AnimImageBloc() : super(AnimImageInitial()) {
+  AnimImageBloc({required this.frameUpdateCubit}) : super(AnimImageInitial()) {
     on<AnimImageStartEvent>((event, emit) async {
       _reset();
       emit(AnimImageDecodeing());
@@ -49,6 +51,7 @@ class AnimImageBloc extends Bloc<AnimImageEvent, AnimImageState> {
       anim = animRaw.list!;
 
       frameSize = anim.length;
+      frameUpdateCubit.update(frameSize!);
       emit(
         AnimImageFrameSizeUpdate(
           frameLen: frameSize!,

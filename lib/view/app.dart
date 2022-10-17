@@ -20,6 +20,7 @@ import 'bloc/ads_bloc.dart';
 import 'checker/bloc/anim_image_bloc.dart';
 import 'checker/bloc/download_crop_image_bloc.dart';
 import 'checker/bloc/image_adjust_bloc.dart';
+import 'checker/cubit/frame_update_cubit.dart';
 import 'checker/cubit/reset_cp_cubit.dart';
 import 'cubit/save_file_location_cubit.dart';
 import 'layout/layout.dart';
@@ -32,9 +33,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var frameUpdateCubit = FrameUpdateCubit();
     var horizon = Horizon(horizonApi: HorizonApi());
     var settingConfCubit = SettingConfigCubit();
-    var animImageBloc = AnimImageBloc();
+    var animImageBloc = AnimImageBloc(frameUpdateCubit: frameUpdateCubit);
     var imageAdjustBloc = ImageAdjustBloc();
     return MultiBlocProvider(
       providers: [
@@ -71,9 +73,13 @@ class MyApp extends StatelessWidget {
           create: (context) => saveFileLocationCubit,
         ),
         BlocProvider(
+          create: (context) => frameUpdateCubit,
+        ),
+        BlocProvider(
           create: (context) => ResetCpCubit(
             animImageBloc: animImageBloc,
             imageAdjustBloc: imageAdjustBloc,
+            frameUpdateCubit: frameUpdateCubit
           ),
         ),
       ],
@@ -99,6 +105,8 @@ class ApplyMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var animImgBloc = context.read<AnimImageBloc>();
+    var imgAdjBloc = context.read<ImageAdjustBloc>();
     return MultiBlocListener(
       listeners: [
         BlocListener<SaveFileLocationCubit, SaveFileLocationState>(
@@ -130,6 +138,34 @@ class ApplyMore extends StatelessWidget {
             );
           }
         }),
+        BlocListener<AnimImageBloc, AnimImageState>(
+          listener: (context, state) async {
+            if (state is AnimImageFrameSizeUpdate ||
+                state is AnimImageSplitting) {
+              if (kIsWeb) {
+                await Future.delayed(const Duration(milliseconds: 500));
+              }
+              animImgBloc.add(AnimImageResumeEvent());
+              imgAdjBloc.running = true;
+            } else if (state is AnimImageSplittingComplated) {
+              imgAdjBloc.running = false;
+              Helper.customToast(
+                context,
+                "Splitting done",
+                ToastMode.success,
+              );
+            } else if (state is! AnimImageDecodeing) {
+              if (state is AnimImageError) {
+                Helper.customToast(
+                  context,
+                  "Error while splitting image.",
+                  ToastMode.error,
+                );
+              }
+              imgAdjBloc.running = false;
+            }
+          },
+        ),
       ],
       child: OverlaySupport.global(
         child: MainApp(

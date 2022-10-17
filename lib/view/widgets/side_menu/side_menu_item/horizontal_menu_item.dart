@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../checker/check_page.dart';
 import '../cubit/sidemenuonactive_cubit.dart';
 import '../cubit/sidemenuonhover_cubit.dart';
 import '../../../../data/model/menu_data.dart';
+import '../widgets/progress_indicator_custom.dart';
 
 class HorizontalMenuItem extends StatelessWidget {
   final MenuData itemData;
@@ -64,8 +66,15 @@ class HorizontalMenuItem extends StatelessWidget {
                               ? FontWeight.bold
                               : FontWeight.normal,
                         ),
-                        child: Text(
-                          itemData.name,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              itemData.name,
+                            ),
+                            if (itemData.name == CheckerPage.pageName)
+                                  const ProgressIndicatorCustom(),
+                          ],
                         ),
                       ),
                     )

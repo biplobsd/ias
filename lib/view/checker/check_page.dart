@@ -18,6 +18,7 @@ import '../widgets/side_menu/cubit/packageinfo_cubit.dart';
 import '../widgets/style.dart';
 import 'bloc/download_crop_image_bloc.dart';
 import 'bloc/image_adjust_bloc.dart';
+import 'cubit/frame_update_cubit.dart';
 import 'cubit/reset_cp_cubit.dart';
 
 class CheckerPage extends StatelessWidget {
@@ -44,34 +45,6 @@ class CheckerPage extends StatelessWidget {
             } else if (state is ImageAdjustImageUploading) {
               imgAdjBloc.running = true;
             } else if (state is ImageAdjustImageError) {
-              imgAdjBloc.running = false;
-            }
-          },
-        ),
-        BlocListener<AnimImageBloc, AnimImageState>(
-          listener: (context, state) async {
-            if (state is AnimImageFrameSizeUpdate ||
-                state is AnimImageSplitting) {
-              if (kIsWeb) {
-                await Future.delayed(const Duration(milliseconds: 500));
-              }
-              animImgBloc.add(AnimImageResumeEvent());
-              imgAdjBloc.running = true;
-            } else if (state is AnimImageSplittingComplated) {
-              imgAdjBloc.running = false;
-              Helper.customToast(
-                context,
-                "Splitting done",
-                ToastMode.success,
-              );
-            } else if (state is! AnimImageDecodeing) {
-              if (state is AnimImageError) {
-                Helper.customToast(
-                  context,
-                  "Error while splitting image.",
-                  ToastMode.error,
-                );
-              }
               imgAdjBloc.running = false;
             }
           },
@@ -191,12 +164,9 @@ class CheckPageScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlocBuilder<AnimImageBloc, AnimImageState>(
-                      buildWhen: (previous, current) =>
-                          current is AnimImageFrameSizeUpdate ||
-                          current is AnimImageInitial,
+                    BlocBuilder<FrameUpdateCubit, FrameUpdateState>(
                       builder: (context, state) {
-                        if (state is AnimImageFrameSizeUpdate) {
+                        if (state is FrameUpdateFrameUpdate) {
                           return AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             child: Text(
@@ -214,7 +184,7 @@ class CheckPageScreen extends StatelessWidget {
                           current is AnimImageSplitting ||
                           current is AnimImageInitial,
                       builder: (context, state) {
-                        if (state is AnimImageSplitting) {
+                        if (state is AnimImageSplitting || state is AnimImageSplittingComplated) {
                           return AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             child: Text(
@@ -232,13 +202,10 @@ class CheckPageScreen extends StatelessWidget {
                 Expanded(
                   child: Material(
                     color: Colors.transparent,
-                    child: BlocBuilder<AnimImageBloc, AnimImageState>(
-                      buildWhen: (previous, current) =>
-                          current is AnimImageFrameSizeUpdate ||
-                          current is AnimImageInitial,
+                    child: BlocBuilder<FrameUpdateCubit, FrameUpdateState>(
                       builder: (context, state) {
                         Widget widget;
-                        if (state is AnimImageFrameSizeUpdate) {
+                        if (state is FrameUpdateFrameUpdate) {
                           widget = GridView.builder(
                             key: UniqueKey(),
                             shrinkWrap: true,
